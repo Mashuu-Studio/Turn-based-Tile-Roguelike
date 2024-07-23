@@ -6,11 +6,8 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Board : MonoBehaviour
 {
-    public bool HasUnit { get { return unit != null; } }
-    public UnitObject Unit { get { return unit; } }
     public Vector2Int Pos { get { return pos; } }
     private Vector2Int pos;
-    private UnitObject unit;
 
     private SpriteRenderer spriteRenderer;
 
@@ -22,19 +19,6 @@ public class Board : MonoBehaviour
     public void SetBoard(int x, int y)
     {
         pos = new Vector2Int(x, y);
-    }
-
-    public void SetUnit(UnitObject unit)
-    {
-        this.unit = unit;
-    }
-
-    public void Damaged(int dmg)
-    {
-        if (unit != null)
-        {
-            unit.Damaged(dmg);
-        }
     }
 
     public void ShowAttackRange(bool b)

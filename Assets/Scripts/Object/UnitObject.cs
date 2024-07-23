@@ -6,6 +6,15 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class UnitObject : Poolable
 {
+
+    public Vector2Int pos;
+
+    public void Move(Vector2Int dir)
+    {
+        pos += dir;
+        transform.position = (Vector2)pos;
+    }
+    /*
     [SerializeField] private string key;
 
     private Animator animator;
@@ -29,7 +38,6 @@ public class UnitObject : Poolable
     private int actions;
     private int remainAction;
     private int range;
-
     public override void Init()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,16 +59,6 @@ public class UnitObject : Poolable
         spriteRenderer.material.SetColor("_Color", isEnemy ? Color.red : Color.green);
     }
 
-    #region Drag
-
-    private static Color stateColor = Color.white;
-    private static Color draggingColor = new Color(1, 1, 1, 0.5f);
-
-    public void Dragging(bool b)
-    {
-        spriteRenderer.color = b ? draggingColor : stateColor;
-    }
-    #endregion
     #region Action
     public void Action()
     {
@@ -111,8 +109,6 @@ public class UnitObject : Poolable
 
         // 최종적으로 이동하는 모습이 끝나면 위치를 확실하게 조정
         BoardController.Instance.MoveUnit(this, dest);
-        // 공격범위를 띄우고 있었다면 취소
-        if (showingRange) BoardController.Instance.ShowAttackRange(null);
         animator.SetBool("move", false);
     }
 
@@ -229,24 +225,5 @@ public class UnitObject : Poolable
     }
 
     #endregion
-    #endregion
-
-    private bool showingRange;
-    private void OnMouseDown()
-    {
-        BoardController.Instance.ShowAttackRange(AttackRange);
-        showingRange = true;
-    }
-
-    private void OnMouseExit()
-    {
-        BoardController.Instance.ShowAttackRange(null);
-        showingRange = false;
-    }
-
-    private void OnDisable()
-    {
-        if (showingRange) BoardController.Instance.ShowAttackRange(null);
-        showingRange = false;
-    }
+    #endregion*/
 }

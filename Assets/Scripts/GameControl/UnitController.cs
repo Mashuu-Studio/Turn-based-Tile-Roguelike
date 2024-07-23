@@ -17,7 +17,7 @@ public class UnitController : MonoBehaviour
         instance = this;
     }
     #endregion
-
+    /*
     private List<UnitObject> units = new List<UnitObject>();
     public int UnitAmount { get { return unitAmount; } }
     public int EnemyAmount { get { return enemyAmount; } }
@@ -27,13 +27,6 @@ public class UnitController : MonoBehaviour
     public void Init()
     {
         units.Clear();
-        AddUnit((UnitObject)PoolController.Pop("UNIT.MELEE"), BoardController.Instance.SelectRandomEmptyBoard(false), false);
-        AddUnit((UnitObject)PoolController.Pop("UNIT.MELEERANGE"), BoardController.Instance.SelectRandomEmptyBoard(false), false);
-        AddUnit((UnitObject)PoolController.Pop("UNIT.RANGE"), BoardController.Instance.SelectRandomEmptyBoard(false), false);
-        AddUnit((UnitObject)PoolController.Pop("UNIT.MELEE"), BoardController.Instance.SelectRandomEmptyBoard(true), true);
-        AddUnit((UnitObject)PoolController.Pop("UNIT.MELEERANGE"), BoardController.Instance.SelectRandomEmptyBoard(true), true);
-        AddUnit((UnitObject)PoolController.Pop("UNIT.RANGE"), BoardController.Instance.SelectRandomEmptyBoard(true), true);
-        UIController.Instance.SetUnitInfo(units);
     }
 
     public void StartGame()
@@ -84,10 +77,10 @@ public class UnitController : MonoBehaviour
         int index = orderdedUnits.FindIndex(u => u == unit);
         if (index >= 0)
         {
-            /*
-            if (unit.IsEnemy) enemyAmount--;
-            else unitAmount--;
-            */
+            
+            //if (unit.IsEnemy) enemyAmount--;
+            //else unitAmount--;
+            
             orderdedUnits.RemoveAt(index);
             // 만약에 죽은 유닛이 앞 순번이라면 턴index를 앞으로 당겨줌
             // 또는, 유닛이 죽음으로 인해 unitTurnIndex가 넘어가게 되면 0으로 초기화해줌.
@@ -147,5 +140,5 @@ public class UnitController : MonoBehaviour
     {
 
     }
-    #endregion
+    #endregion*/
 }
