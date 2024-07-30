@@ -1,0 +1,18 @@
+.Tile_Floor, .Tile_None, .Tile_Obstacle {
+    width: 50px;
+    height: 50px;
+    background-size: cover;    
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.Tile_Floor {
+    background-image: url("project://database/Assets/Sprites/Editor/FLOOR.png?fileID=2800000&guid=43961a741b12c0945a31903538ab2f11&type=3#FLOOR");
+}
+
+.Tile_None {
+    background-image: url("project://database/Assets/Sprites/Editor/NONE.png?fileID=2800000&guid=ee84de70f17ed4a47a8adf1cacf772a1&type=3#NONE");
+}
+
+.Tile_Obstacle {
+    background-image: url("project://database/Assets/Sprites/Editor/OBSTACLE.png?fileID=2800000&guid=dce751b27cc76fe4488ed226764499a2&type=3#OBSTACLE");
+}
