@@ -11,7 +11,7 @@ public class Tile : ScriptableObject
     public string guid;
     public Tile()
     {
-        type = TileType.NONE;
+        type = TileType.FLOOR;
     }
 
     public void SetType(TileType type)

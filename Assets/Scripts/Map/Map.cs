@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -12,6 +13,32 @@ public class Map : ScriptableObject
     public event Action OnMapChanged;
     public Tile[,] Tiles { get { return tiles; } }
     private Tile[,] tiles;
+    [SerializeField] private Tile[] serializeTiles;
+
+    private void SerializeTiles()
+    {
+        serializeTiles = new Tile[width * height];
+
+        for (int i = 0; i < width; i++)
+        { 
+            for (int j = 0; j < height; j++)
+            {
+                serializeTiles[i * height + j] = tiles[i, j];
+            }
+        }
+    }
+
+    private void DeserializeTiles()
+    {
+        tiles = new Tile[width, height];
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                tiles[i, j] = serializeTiles[i * height + j];
+            }
+        }
+    }
 
     public void LoadMap()
     {
@@ -20,7 +47,7 @@ public class Map : ScriptableObject
         if (map)
         {
             // 타일정보를 불러온 뒤 만일의 상황을 대비해 SetMap을 통해 지워주거나 채워줌.
-            tiles = map.tiles;
+            DeserializeTiles();
             SetMap();
         }
     }
@@ -72,15 +99,9 @@ public class Map : ScriptableObject
                 }
             }
         }
-        AssetDatabase.SaveAssets();
         tiles = newTiles;
+        SerializeTiles();
         OnMapChanged?.Invoke();
-    }
-
-    // 특정 타일을 변환하는 메서드
-    public void SetTile(int x, int y, Tile.TileType type)
-    {
-        tiles[x, y].SetType(type);
         AssetDatabase.SaveAssets();
     }
 }

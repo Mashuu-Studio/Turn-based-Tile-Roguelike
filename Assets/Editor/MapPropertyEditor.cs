@@ -12,12 +12,14 @@ public class MapPropertyMapEditor : Editor
 
     private void OnEnable()
     {
+        if (target == null || serializedObject == null) return;
         widthProp = serializedObject.FindProperty("width");
         heightProp = serializedObject.FindProperty("height");
     }
 
     public override void OnInspectorGUI()
     {
+        if (serializedObject == null) return;
         serializedObject.Update();
 
         EditorGUI.BeginChangeCheck();

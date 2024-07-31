@@ -11,11 +11,13 @@ public class TilePropertyMapEditor : Editor
 
     private void OnEnable()
     {
+        if (target == null || serializedObject == null) return;
         typeProp = serializedObject.FindProperty("type");
     }
 
     public override void OnInspectorGUI()
     {
+        if (serializedObject == null) return;
         serializedObject.Update();
 
         EditorGUI.BeginChangeCheck();

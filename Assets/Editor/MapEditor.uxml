@@ -12,7 +12,7 @@
             </MapEditor.SplitView>
         </ui:VisualElement>
         <ui:VisualElement name="right-panel" style="flex-grow: 1; background-image: none;">
-            <MapEditor.MapEditorView style="height: 100%; width: auto;" />
+            <MapEditor.MapEditorView style="height: 100%; width: auto; right: auto; left: auto; top: auto; position: relative;" />
         </ui:VisualElement>
     </MapEditor.SplitView>
 </ui:UXML>

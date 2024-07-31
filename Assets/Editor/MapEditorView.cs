@@ -23,6 +23,7 @@ namespace MapEditor
         {
             this.map = map;
             this.map.OnMapChanged += DrawView;
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             this.map.LoadMap();
 
 
@@ -34,7 +35,7 @@ namespace MapEditor
         {
             // 전체 크기의 중앙에 둚.
             Clear();
-            Vector2 viewSize = new Vector2(style.width.value.value, style.height.value.value);
+            Vector2 viewSize = new Vector2(layout.width, layout.height);
             Vector2Int mapSize = new Vector2Int(map.width, map.height);
             Vector2Int pos = Vector2Int.zero;
             for (int x = 0; x < map.width; x++)
@@ -51,17 +52,24 @@ namespace MapEditor
         }
 
         // 타일 생성
-        private void CreateTileView(Tile tile, Vector2Int pos, Vector2 size, Vector2Int mapSize)
+        private void CreateTileView(Tile tile, Vector2Int pos, Vector2 viewSize, Vector2Int mapSize)
         {
             // 좌하단을 0,0으로 시작하여 우상단을 width-1,height-1로 마무리.
             // 타일 사이즈는 기본적으로 50으로 설정.
             // 가운데로 이동시켜야 함.
             MapEditorTileView tileView = new MapEditorTileView(tile, pos);
+            float tileSize = 50;
+            Vector2 startPos = new Vector2((viewSize.x - mapSize.x * tileSize) / 2, (viewSize.y - mapSize.y * tileSize) / 2);
             tileView.style.position = Position.Absolute;
-            tileView.style.left = pos.x * 55;
-            tileView.style.top = pos.y * 55;
+            tileView.style.left = startPos.x + pos.x * tileSize;
+            tileView.style.top = startPos.y + pos.y * tileSize;
             tileView.clicked += () => OnTileSelected(tileView);
             Add(tileView);
+        }
+
+        private void OnGeometryChanged(GeometryChangedEvent evt)
+        {
+            DrawView();
         }
     }
 }
