@@ -8,8 +8,10 @@ namespace MapEditor
 {
     public class MapEditorView : VisualElement
     {
+        private TilePaletteView tilePalette;
         public Action<MapEditorTileView> OnTileSelected;
         public Map map;
+        private bool startBrushing;
         public new class UxmlFactory : UxmlFactory<MapEditorView, UxmlTraits> { }
 
         public MapEditorView()
@@ -19,13 +21,17 @@ namespace MapEditor
         }
 
         // View √ ±‚»≠
-        internal void PopulateView(Map map)
+        internal void PopulateView(Map map, TilePaletteView tilePalette)
         {
+            this.tilePalette = tilePalette;
+
             this.map = map;
             this.map.OnMapChanged += DrawView;
-            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             this.map.LoadMap();
-
+            RegisterCallback<GeometryChangedEvent>(evt => DrawView());
+            RegisterCallback<PointerDownEvent>(evt => startBrushing = true);
+            RegisterCallback<PointerUpEvent>(evt => startBrushing = false);
+            RegisterCallback<MouseLeaveEvent>(evt => startBrushing = false);
 
             DrawView();
         }
@@ -63,13 +69,13 @@ namespace MapEditor
             tileView.style.position = Position.Absolute;
             tileView.style.left = startPos.x + pos.x * tileSize;
             tileView.style.top = startPos.y + pos.y * tileSize;
-            tileView.clicked += () => OnTileSelected(tileView);
-            Add(tileView);
-        }
 
-        private void OnGeometryChanged(GeometryChangedEvent evt)
-        {
-            DrawView();
+            tileView.RegisterCallback<PointerDownEvent>(evt => tileView.TileChanged(tilePalette.SelectedType));
+            tileView.RegisterCallback<PointerEnterEvent>(evt =>
+            {
+                if (startBrushing) tileView.TileChanged(tilePalette.SelectedType);
+            });
+            Add(tileView);
         }
     }
 }

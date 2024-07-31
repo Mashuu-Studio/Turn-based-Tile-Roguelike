@@ -8,7 +8,7 @@ namespace MapEditor
     {
         MapEditorView editorView;
         MapInspectorView mapInspectorView;
-        TileInspectorView tileInspectorView;
+        TilePaletteView tilePaletteView;
 
         [MenuItem("Window/Editor/MapEditor")]
         public static void ShowExample()
@@ -31,8 +31,7 @@ namespace MapEditor
 
             editorView = root.Q<MapEditorView>();
             mapInspectorView = root.Q<MapInspectorView>();
-            tileInspectorView = root.Q<TileInspectorView>();
-            editorView.OnTileSelected = tileInspectorView.SelectTile;
+            tilePaletteView = root.Q<TilePaletteView>();
         }
 
         private void OnSelectionChange()
@@ -40,7 +39,7 @@ namespace MapEditor
             Map map = Selection.activeObject as Map;
             if (map)
             {
-                editorView.PopulateView(map);
+                editorView.PopulateView(map, tilePaletteView);
                 mapInspectorView.PopulateView(map, editorView);
             }
         }

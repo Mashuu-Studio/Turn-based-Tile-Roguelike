@@ -4,14 +4,17 @@
         <ui:VisualElement name="left-panel" style="flex-grow: 1; width: auto; min-width: auto; min-height: auto; max-width: none; max-height: none; height: auto; flex-shrink: 0; background-color: rgba(0, 0, 0, 0); background-image: none; -unity-background-image-tint-color: rgb(255, 255, 255);">
             <MapEditor.SplitView orientation="Vertical" fixed-pane-initial-dimension="275" name="SplitView">
                 <ui:VisualElement name="upper-panel" style="flex-grow: 1; height: 298px; -unity-background-image-tint-color: rgb(255, 255, 255);">
+                    <uie:Toolbar />
                     <MapEditor.MapInspectorView style="height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="lower-panel" style="flex-grow: 1; width: auto;">
-                    <MapEditor.TileInspectorView name="InspectorView" style="height: 100%;" />
+                    <uie:Toolbar />
+                    <MapEditor.TilePaletteView />
                 </ui:VisualElement>
             </MapEditor.SplitView>
         </ui:VisualElement>
         <ui:VisualElement name="right-panel" style="flex-grow: 1; background-image: none;">
+            <uie:Toolbar />
             <MapEditor.MapEditorView style="height: 100%; width: auto; right: auto; left: auto; top: auto; position: relative;" />
         </ui:VisualElement>
     </MapEditor.SplitView>

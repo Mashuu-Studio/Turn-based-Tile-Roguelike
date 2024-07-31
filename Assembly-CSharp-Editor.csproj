@@ -61,11 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\MapPropertyEditor.cs" />
-    <Compile Include="Assets\Editor\TilePropertyEditor.cs" />
     <Compile Include="Assets\Editor\MapEditor.cs" />
+    <Compile Include="Assets\Editor\TileBrushView.cs" />
     <Compile Include="Assets\Editor\MapEditorView.cs" />
-    <Compile Include="Assets\Editor\TileInspectorView.cs" />
     <Compile Include="Assets\Editor\MapInspectorView.cs" />
+    <Compile Include="Assets\Editor\TilePaletteView.cs" />
     <Compile Include="Assets\Editor\MapEditorTileView.cs" />
     <Compile Include="Assets\Editor\SplitView.cs" />
   </ItemGroup>

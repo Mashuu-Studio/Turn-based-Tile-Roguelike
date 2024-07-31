@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor;
-using Unity.VisualScripting;
 
 namespace MapEditor
 {
-    public class MapEditorTileView : Button
+    public class MapEditorTileView : VisualElement
     {
         public Tile tile;
         Vector2Int pos;
@@ -17,14 +14,13 @@ namespace MapEditor
         {
             this.tile = tile;
             this.pos = pos;
-
-            tile.OnTileChanged += TileChanged;
-            TileChanged();
+            TileChanged(tile.type);
         }
 
-        public string GetTileType()
+        // 스타일의 타입을 받기 위함.
+        public static string GetTileType(Tile.TileType type)
         {
-            switch (tile.type)
+            switch (type)
             {
                 case Tile.TileType.NONE: return "Tile_None";
                 case Tile.TileType.FLOOR: return "Tile_Floor";
@@ -33,10 +29,12 @@ namespace MapEditor
             return "";
         }
 
-        public void TileChanged()
+        // 타일의 정보를 바꾸기 위해 스타일 변경.
+        public void TileChanged(Tile.TileType type)
         {
+            tile.SetType(type);
             ClearClassList();
-            AddToClassList(GetTileType());
+            AddToClassList(GetTileType(tile.type));
         }
     }
 }
