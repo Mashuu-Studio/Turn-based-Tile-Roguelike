@@ -15,6 +15,7 @@ namespace MapEditor
 
         public Tile.TileType SelectedType { get { return selectedType; } }
         private Tile.TileType selectedType;
+        private TileBrushView selectedBrush;
         public TilePaletteView()
         {
             SetPalette();
@@ -40,14 +41,19 @@ namespace MapEditor
         {
             // 타일 사이즈는 기본적으로 50으로 설정.
             TileBrushView brushView = new TileBrushView(type);
-            brushView.clicked += () => OnBrushSelected(type);
+            brushView.name = type.ToString();
+            brushView.clicked += () => OnBrushSelected(brushView, type);
+            if (selectedType == type) OnBrushSelected(brushView, type);
 
             Add(brushView);
         }
 
-        private void OnBrushSelected(Tile.TileType type)
+        private void OnBrushSelected(TileBrushView brush, Tile.TileType type)
         {
             selectedType = type;
+            if (selectedBrush != null) selectedBrush.Select(false);
+            selectedBrush = brush;
+            selectedBrush.Select(true);
         }
     }
 }

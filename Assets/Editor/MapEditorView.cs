@@ -28,7 +28,10 @@ namespace MapEditor
             this.map = map;
             this.map.OnMapChanged += DrawView;
             this.map.LoadMap();
+            // View의 크기가 바뀌면 가운데로 위치 조정 다시 해줌.
             RegisterCallback<GeometryChangedEvent>(evt => DrawView());
+
+            // Brush질을 진행할 수 있도록 해당 뷰를 선택해도 시작을 걸어줌.
             RegisterCallback<PointerDownEvent>(evt => startBrushing = true);
             RegisterCallback<PointerUpEvent>(evt => startBrushing = false);
             RegisterCallback<MouseLeaveEvent>(evt => startBrushing = false);
@@ -70,6 +73,8 @@ namespace MapEditor
             tileView.style.left = startPos.x + pos.x * tileSize;
             tileView.style.top = startPos.y + pos.y * tileSize;
 
+            // 선택한 곳은 즉각적으로 변경
+            // 드래그 되는 곳은 startBrusing을 체크한 뒤 변경.
             tileView.RegisterCallback<PointerDownEvent>(evt => tileView.TileChanged(tilePalette.SelectedType));
             tileView.RegisterCallback<PointerEnterEvent>(evt =>
             {

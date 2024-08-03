@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
     <Compile Include="Assets\Scripts\Object\UnitObject.cs" />
     <Compile Include="Assets\Scripts\Map\Board.cs" />
+    <Compile Include="Assets\Scripts\Map\MapObject.cs" />
     <Compile Include="Assets\Scripts\Data\Initializer.cs" />
     <Compile Include="Assets\Scripts\Data\UnitManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
