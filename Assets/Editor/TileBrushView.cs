@@ -8,8 +8,6 @@ namespace MapEditor
     public class TileBrushView : Button
     {
         public Tile.TileType type;
-        private static StyleColor unselectedColor = new StyleColor(Color.white);
-        private static StyleColor selectedColor = new StyleColor(Color.gray);
 
         public TileBrushView(Tile.TileType type)
         {
@@ -20,7 +18,7 @@ namespace MapEditor
 
         public void Select(bool selected)
         {
-            style.unityBackgroundImageTintColor = selected ? selectedColor : unselectedColor;
+            style.unityBackgroundImageTintColor = selected ? TilePaletteView.SelectedColor : TilePaletteView.UnselectedColor;
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +13,7 @@ namespace MapEditor
         private TilePaletteView tilePalette;
         public Action<MapEditorTileView> OnTileSelected;
         public Map map;
+        public MapEditorTileView[,] tiles;
         private bool startBrushing;
         public new class UxmlFactory : UxmlFactory<MapEditorView, UxmlTraits> { }
 
@@ -47,6 +50,7 @@ namespace MapEditor
             Vector2 viewSize = new Vector2(layout.width, layout.height);
             Vector2Int mapSize = new Vector2Int(map.width, map.height);
             Vector2Int pos = Vector2Int.zero;
+            tiles = new MapEditorTileView[map.width, map.height];
             for (int x = 0; x < map.width; x++)
             {
                 for (int y = 0; y < map.height; y++)
@@ -75,12 +79,42 @@ namespace MapEditor
 
             // 선택한 곳은 즉각적으로 변경
             // 드래그 되는 곳은 startBrusing을 체크한 뒤 변경.
-            tileView.RegisterCallback<PointerDownEvent>(evt => tileView.TileChanged(tilePalette.SelectedType));
+            tileView.RegisterCallback<PointerDownEvent>(evt => TileChanged(pos));
             tileView.RegisterCallback<PointerEnterEvent>(evt =>
             {
-                if (startBrushing) tileView.TileChanged(tilePalette.SelectedType);
+                if (startBrushing) TileChanged(pos);
             });
+            tiles[pos.x, pos.y] = tileView;
             Add(tileView);
+        }
+
+        private void TileChanged(Vector2Int pos)
+        {
+            tiles[pos.x, pos.y].TileChanged(tilePalette.SelectedType);
+
+            bool horizontal = tilePalette.GetSupportActivate(TilePaletteView.SupportItemType.HORIZONTAL_SYMMETRY);
+            bool vertical = tilePalette.GetSupportActivate(TilePaletteView.SupportItemType.VERTICAL_SYMMETRY);
+
+            int x_inverse = map.width - 1 - pos.x;
+            int y_inverse = map.height - 1 - pos.y;
+            // 좌우 대칭 그리기
+            if (horizontal)
+            {
+                tiles[x_inverse, pos.y].TileChanged(tilePalette.SelectedType);
+            }
+
+            // 상하 대칭 그리기
+            if (vertical)
+            {
+                tiles[pos.x, y_inverse].TileChanged(tilePalette.SelectedType);
+            }
+
+            // 둘 다 되어있다면 정반대편도
+            if (horizontal && vertical)
+            {
+                tiles[x_inverse, y_inverse].TileChanged(tilePalette.SelectedType);
+            }
+
         }
     }
 }

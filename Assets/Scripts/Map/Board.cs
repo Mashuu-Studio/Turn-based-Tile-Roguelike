@@ -16,7 +16,7 @@ public class Board : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetBoard(int x, int y)
+    public void SetBoard(int x, int y, Sprite sprite)
     {
         pos = new Vector2Int(x, y);
     }

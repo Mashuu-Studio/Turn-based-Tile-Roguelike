@@ -64,6 +64,7 @@
     <Compile Include="Assets\Editor\MapEditor.cs" />
     <Compile Include="Assets\Editor\TileBrushView.cs" />
     <Compile Include="Assets\Editor\MapEditorView.cs" />
+    <Compile Include="Assets\Editor\SupportItemView.cs" />
     <Compile Include="Assets\Editor\MapInspectorView.cs" />
     <Compile Include="Assets\Editor\TilePaletteView.cs" />
     <Compile Include="Assets\Editor\MapEditorTileView.cs" />

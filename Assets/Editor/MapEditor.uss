@@ -1,8 +1,13 @@
-.Tile_Floor, .Tile_None, .Tile_Obstacle {
+.Tile_Palette {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Tile_Floor, .Tile_Obstacle, .Tile_None, .Horizontal_Symmetry, .Vertical_Symmetry, .Map_Preset1, .Map_Preset2 {
     width: 50px;
     height: 50px;
     margin: 5px;
-    background-size: cover;    
+    background-size: cover;
 }
 
 .Tile_Floor {
@@ -17,7 +22,18 @@
     background-image: url("project://database/Assets/Sprites/Editor/OBSTACLE.png?fileID=2800000&guid=dce751b27cc76fe4488ed226764499a2&type=3#OBSTACLE");
 }
 
-.Tile_Palette{
-    display: flex;
-    flex-wrap: wrap;
+.Horizontal_Symmetry {
+    background-image: url("project://database/Assets/Sprites/Editor/Horizontal%20Symmetry.png?fileID=2800000&guid=71d23f191b289384c8f488095dc24a73&type=3#Horizontal Symmetry");
+}
+
+.Vertical_Symmetry {
+    background-image: url("project://database/Assets/Sprites/Editor/Veritical%20Symmetry.png?fileID=2800000&guid=f3896e744c90c544c8586c910cc62bf3&type=3#Veritical Symmetry");
+}
+
+.Map_Preset1 {
+    background-image: url("project://database/Assets/Sprites/Editor/Preset%201.png?fileID=2800000&guid=0d9ad70125efdff44a39014e72ac2107&type=3#Preset 1");
+}
+
+.Map_Preset2 {
+    background-image: url("project://database/Assets/Sprites/Editor/Preset%202.png?fileID=2800000&guid=84607e9905eb8104b82b4c3f12699164&type=3#Preset 2");
 }
