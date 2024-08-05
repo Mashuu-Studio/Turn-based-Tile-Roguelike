@@ -23,6 +23,7 @@ namespace MapEditor
 
         public enum SupportItemType { HORIZONTAL_SYMMETRY = 0, VERTICAL_SYMMETRY }
         private SupportItemView[] supportItems;
+
         private const int PRESET_AMOUNT = 2; // 수동으로 세팅. 어차피 프리셋별로 타일을 채우는 방식 역시 직접 하드코딩해주어야 함.
         private SupportItemView[] presets;
 
@@ -59,7 +60,7 @@ namespace MapEditor
             presets = new SupportItemView[PRESET_AMOUNT];
             for (int i = 0; i < PRESET_AMOUNT; i++)
             {
-                presets[i] = CreateSupportItemView($"Map_Preset{i}", i);
+                presets[i] = CreateSupportItemView($"Map_Preset{i + 1}", i);
             }
         }
 
@@ -89,6 +90,7 @@ namespace MapEditor
             // 타일 사이즈는 기본적으로 50으로 설정.
             TileBrushView brushView = new TileBrushView(type);
             brushView.name = type.ToString();
+            brushView.Select(false);
             brushView.clicked += () => OnBrushSelected(brushView, type);
             if (selectedType == type) OnBrushSelected(brushView, type);
 

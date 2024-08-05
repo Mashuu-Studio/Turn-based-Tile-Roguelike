@@ -1,4 +1,5 @@
 using MapEditor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,13 @@ public class SupportItemView : Button
 {
     public bool activate;
     private int presetNumber;
-
+    public static Action<int> OnUsePreset;
     public SupportItemView(string style, int presetNumber = -1)
     {
         ClearClassList();
         AddToClassList(style);
 
+        activate = false;
         this.presetNumber = presetNumber;
     }
 
@@ -28,6 +30,7 @@ public class SupportItemView : Button
         // 프리셋의 경우 즉각 작동.
         else
         {
+            OnUsePreset?.Invoke(presetNumber);
         }
     }
 }

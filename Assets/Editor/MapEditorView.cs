@@ -1,3 +1,4 @@
+using Codice.CM.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace MapEditor
         {
             ClearClassList();
             AddToClassList("MapEditorView");
+            SupportItemView.OnUsePreset = Preset;
         }
 
         // View 초기화
@@ -79,18 +81,18 @@ namespace MapEditor
 
             // 선택한 곳은 즉각적으로 변경
             // 드래그 되는 곳은 startBrusing을 체크한 뒤 변경.
-            tileView.RegisterCallback<PointerDownEvent>(evt => TileChanged(pos));
+            tileView.RegisterCallback<PointerDownEvent>(evt => TileChanged(pos, tilePalette.SelectedType));
             tileView.RegisterCallback<PointerEnterEvent>(evt =>
             {
-                if (startBrushing) TileChanged(pos);
+                if (startBrushing) TileChanged(pos, tilePalette.SelectedType);
             });
             tiles[pos.x, pos.y] = tileView;
             Add(tileView);
         }
 
-        private void TileChanged(Vector2Int pos)
+        private void TileChanged(Vector2Int pos, Tile.TileType type)
         {
-            tiles[pos.x, pos.y].TileChanged(tilePalette.SelectedType);
+            tiles[pos.x, pos.y].TileChanged(type);
 
             bool horizontal = tilePalette.GetSupportActivate(TilePaletteView.SupportItemType.HORIZONTAL_SYMMETRY);
             bool vertical = tilePalette.GetSupportActivate(TilePaletteView.SupportItemType.VERTICAL_SYMMETRY);
@@ -100,21 +102,86 @@ namespace MapEditor
             // 좌우 대칭 그리기
             if (horizontal)
             {
-                tiles[x_inverse, pos.y].TileChanged(tilePalette.SelectedType);
+                tiles[x_inverse, pos.y].TileChanged(type);
             }
 
             // 상하 대칭 그리기
             if (vertical)
             {
-                tiles[pos.x, y_inverse].TileChanged(tilePalette.SelectedType);
+                tiles[pos.x, y_inverse].TileChanged(type);
             }
 
             // 둘 다 되어있다면 정반대편도
             if (horizontal && vertical)
             {
-                tiles[x_inverse, y_inverse].TileChanged(tilePalette.SelectedType);
+                tiles[x_inverse, y_inverse].TileChanged(type);
             }
 
+        }
+
+        public void Preset(int index)
+        {
+            Vector2Int pos = Vector2Int.zero;
+            switch (index)
+            {
+                // 프리셋 1. 가장 바깥라인 빈공간으로 처리. 나머지는 바닥으로 처리.
+                case 0:
+                    for (int x = 0; x < map.width; x++)
+                    {
+                        for (int y = 0; y < map.height; y++)
+                        {
+                            pos.x = x;
+                            pos.y = y;
+                            if (x == 0 || y == 0
+                                || x == map.width - 1 || y == map.height - 1)
+                            {
+                                TileChanged(pos, Tile.TileType.NONE);
+                            }
+                            else
+                            {
+                                TileChanged(pos, Tile.TileType.FLOOR);
+                            }
+                        }
+                    }
+                    break;
+
+                // 프리셋 2. 마름모꼴 형태로 바깥라인 빈공간으로 처리
+                // 전체를 바닥으로 색칠.
+                // 이 후 끝부분을 덮는 방식으로 진행.
+                // 이 때, 좌상단 사분면을 칠하고 나머지를 대칭으로 색칠.
+                case 1:
+                    for (int x = 0; x < map.width; x++)
+                    {
+                        for (int y = 0; y < map.height; y++)
+                        {
+                            pos.x = x;
+                            pos.y = y;
+                            TileChanged(pos, Tile.TileType.FLOOR);
+                        }
+                    }
+                    
+                    for (int x = 0; x < (map.width - 1) / 2; x++)
+                    {
+                        for (int y = 0; y < (map.height - 1) / 2; y++)
+                        {
+                            if (y >= ((map.height - 1) / 2) - x
+                                || x >= (map.width - 1) / 2 - y) break;
+                            int x_inverse = map.width - 1 - x;
+                            int y_inverse = map.height - 1 - y;
+
+                            pos.x = x;
+                            pos.y = y;
+                            TileChanged(pos, Tile.TileType.NONE);
+                            pos.x = x_inverse;
+                            TileChanged(pos, Tile.TileType.NONE);
+                            pos.y = y_inverse;
+                            TileChanged(pos, Tile.TileType.NONE);
+                            pos.x = x;
+                            TileChanged(pos, Tile.TileType.NONE);
+                        }
+                    }
+                    break;
+            }
         }
     }
 }
