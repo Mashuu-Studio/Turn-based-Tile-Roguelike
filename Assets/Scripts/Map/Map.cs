@@ -28,7 +28,7 @@ public class Map : ScriptableObject
         }
     }
 
-    private void DeserializeTiles()
+    public void DeserializeTiles()
     {
         tiles = new Tile[width, height];
         for (int i = 0; i < width; i++)
