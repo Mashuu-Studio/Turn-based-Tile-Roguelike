@@ -11,33 +11,17 @@ public static class UnitManager
         {
             new Unit()
             {
-                key = "UNIT.MELEE",
-                type = Unit.Type.MELEE,
-                hp = 4,
+                key = "TEST1",
+                hp = 3,
                 dmg = 1,
-                range = 1,
-                speed = 5,
-                actions = 2,
+                attack = AttackManager.GetAttack("+")
             },
             new Unit()
             {
-                key = "UNIT.MELEERANGE",
-                type = Unit.Type.MELEERANGE,
-                hp = 5,
-                dmg = 2,
-                range = 1,
-                speed = 3,
-                actions = 1,
-            },
-            new Unit()
-            {
-                key = "UNIT.RANGE",
-                type = Unit.Type.RANGE,
-                hp = 2,
-                dmg = 2,
-                range = 3,
-                speed = 4,
-                actions = 1,
+                key = "TEST2",
+                hp = 3,
+                dmg = 1,
+                attack = AttackManager.GetAttack("x")
             },
         };
     }

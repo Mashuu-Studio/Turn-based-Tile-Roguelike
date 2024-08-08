@@ -63,11 +63,15 @@
     <Compile Include="Assets\Scripts\Object\Core\Poolable.cs" />
     <Compile Include="Assets\Scripts\GameControl\UnitController.cs" />
     <Compile Include="Assets\Scripts\Object\Core\Pool.cs" />
-    <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
+    <Compile Include="Assets\Scripts\Data\Data.cs" />
+    <Compile Include="Assets\Scripts\Data\AttackManager.cs" />
     <Compile Include="Assets\Scripts\Object\UnitObject.cs" />
+    <Compile Include="Assets\Scripts\Object\EnemyObject.cs" />
     <Compile Include="Assets\Scripts\Map\MapObject.cs" />
     <Compile Include="Assets\Scripts\Data\Initializer.cs" />
+    <Compile Include="Assets\Scripts\Object\PlayerObject.cs" />
     <Compile Include="Assets\Scripts\Data\UnitManager.cs" />
+    <Compile Include="Assets\Scripts\GameControl\StageController.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\Astar.cs" />
     <Compile Include="Assets\Scripts\Object\Projectile.cs" />

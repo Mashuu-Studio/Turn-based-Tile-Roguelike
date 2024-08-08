@@ -4,4 +4,9 @@ using UnityEngine;
 
 public class Initializer : MonoBehaviour
 {
+    private void Awake()
+    {
+        AttackManager.Init();
+        UnitManager.Init();
+    }
 }

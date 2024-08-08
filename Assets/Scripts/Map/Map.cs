@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-[CreateAssetMenu()]
+[CreateAssetMenu(fileName = "Map Data", menuName = "Create Data/Map")]
 public class Map : ScriptableObject
 {
     public int width, height;

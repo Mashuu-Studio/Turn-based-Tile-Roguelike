@@ -30,8 +30,8 @@ public static class Astar
             }
         }
     }
-
-    public static Stack<Vector2Int> Search(int[,] info, Vector2Int start, List<Vector2Int> targets, int range)
+    /*
+    public static Stack<Vector2Int> Search(int[,] info, Vector2Int start, Vector2Int target, List<Vector2Int> obstacles, int range)
     {
         /* 맵의 형태는 0, 1로 세팅. 0은 길, 1은 벽(아군 유닛)
         * 맵정보를 받아온 뒤 현재 위치랑 벽(아군 유닛)과 타겟들의 위치를 체크하고
@@ -49,7 +49,7 @@ public static class Astar
         // 각 노드 별 H는 타겟까지의 거리에 따라 달라지게 되는데
         // 더 가까운 쪽의 타겟을 기준으로 H를 세팅함.
 
-        for (int x = 0; x < width; x++)
+       /* for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
@@ -126,7 +126,7 @@ public static class Astar
         }
         return path;
     }
-
+       */
     private static int CalculateH(Vector2Int pos, Vector2Int target, int range)
     {
         var h = Mathf.Abs(pos.x - target.x) + Mathf.Abs(pos.y - target.y);

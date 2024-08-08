@@ -17,128 +17,58 @@ public class UnitController : MonoBehaviour
         instance = this;
     }
     #endregion
-    /*
-    private List<UnitObject> units = new List<UnitObject>();
-    public int UnitAmount { get { return unitAmount; } }
-    public int EnemyAmount { get { return enemyAmount; } }
-    private int unitAmount;
-    private int enemyAmount;
 
-    public void Init()
+    // 현재 맵의 정보. width, height 등.
+    List<UnitObject> units;
+
+    // 현재 맵의 유닛을 추가시킬 함수
+    // 맵에서 접근.
+    public void AddUnits(List<UnitObject> units)
     {
-        units.Clear();
+        this.units = units;
     }
 
-    public void StartGame()
+    // 죽으면 삭제할 함수
+    public void DeadUnit(UnitObject unit)
     {
-        orderdedUnits.Clear();
-        orderdedUnits.AddRange(units);
-        orderdedUnits.Sort(CompareUnitSpeed);
-        unitTurnIndex = 0;
+        // 전부 죽으면 맵 오브젝트에서도 해당 유닛이 죽은걸 알려야 함.
+        // 혹은 클리어 됐을 때 알리는 식.
     }
 
-    public List<Vector2Int> EnemyPositions(bool isEnemy)
+    // 턴을 진행시킬 함수 -> 전체 유닛이 순차적으로 행동해야함.
+    // 플레이어가 행동을 진행하면 이어서 연달아 진행.
+    Vector3Int[] dirs = new Vector3Int[4]
     {
-        List<Vector2Int> targets = new List<Vector2Int>();
+        Vector3Int.left,
+        Vector3Int.right,
+        Vector3Int.up,
+        Vector3Int.down
+    };
+    public void ActivateUnits()
+    {
+        MapController.Instance.CurrentMap.ClearRange();
+        // 우선 랜덤으로 작동. 
         foreach (var unit in units)
         {
-            if (unit.IsEnemy != isEnemy) targets.Add(unit.pos);
-        }
-        return targets;
-    }
-
-    #region Adjust Unit
-    public void AddUnit(UnitObject unit, Vector2Int pos, bool isEnemy)
-    {
-        unit.SetUnit(isEnemy);
-        BoardController.Instance.MoveUnit(unit, pos);
-
-        units.Add(unit);
-        if (isEnemy) enemyAmount++;
-        else unitAmount++;
-    }
-
-    private int CompareUnitSpeed(UnitObject unit1, UnitObject unit2)
-    {
-        return unit2.Speed - unit1.Speed;
-    }
-
-    public void ResetUnits()
-    {
-        while (units.Count > 0) units[0].Dead();
-        Init();
-    }
-
-    public void RemoveUnit(UnitObject unit)
-    {
-        units.Remove(unit);
-        CheckRemainUnitAmount();
-
-        int index = orderdedUnits.FindIndex(u => u == unit);
-        if (index >= 0)
-        {
-            
-            //if (unit.IsEnemy) enemyAmount--;
-            //else unitAmount--;
-            
-            orderdedUnits.RemoveAt(index);
-            // 만약에 죽은 유닛이 앞 순번이라면 턴index를 앞으로 당겨줌
-            // 또는, 유닛이 죽음으로 인해 unitTurnIndex가 넘어가게 되면 0으로 초기화해줌.
-            if (index < unitTurnIndex) unitTurnIndex--;
-            if (unitTurnIndex >= units.Count) unitTurnIndex = 0;
-
-            // 유닛이 죽었다면 순번이 틀어지기 때문에 다시 세팅해주어야함.
-            if (orderdedUnits.Count > 0) UIController.Instance.SetTurnList();
+            var rand = Random.Range(0, 2);
+            if (rand == 0)
+            {
+                // 랜덤 이동을 위해 세팅. 나중에는 Astar가 자리할 예정.
+                Vector3Int dir;
+                Vector3Int pos;
+                do
+                {
+                    int r = Random.Range(0, dirs.Length);
+                    dir = dirs[r];
+                    pos = unit.Pos + dir;
+                } while (!(pos.x >= 0 && pos.x < MapController.Instance.CurrentMap.Width
+                && pos.y >= 0 && pos.y < MapController.Instance.CurrentMap.Height));
+                unit.Move(dir);
+            }
+            else
+            {
+                unit.Attack();
+            }
         }
     }
-
-    private void CheckRemainUnitAmount()
-    {
-        int u = 0, e = 0;
-        for (int i = 0; i < units.Count; i++)
-        {
-            if (units[i].IsEnemy) e++;
-            else u++;
-        }
-        unitAmount = u;
-        enemyAmount = e;
-    }
-    #endregion
-
-    #region InGame
-
-    // UI에 표기되는 유닛의 순서와 속도에 따라 정렬되는 유닛의 순서를 다르게 관리.
-    private List<UnitObject> orderdedUnits = new List<UnitObject>();
-    private int unitTurnIndex;
-    public void ActivateUnit()
-    {
-        var unit = orderdedUnits[unitTurnIndex];
-        // 행동이 남았다면 다음 유닛의 차례로 넘어가지 않음.
-        // 마지막 행동이라면 다음 유닛의 차례로 넘어감.
-        if (unit.RemainAction == 1)
-        {
-            unitTurnIndex++;
-            // 마지막 유닛으로 왔다면 처음으로
-            if (unitTurnIndex >= units.Count) unitTurnIndex = 0;
-        }
-        unit.Action();
-        // 범위 내에 적이 있다면 공격 없다면 이동
-        if (unit.SearchTargets.Count > 0) unit.Attack();
-        else unit.Move();
-    }
-
-    public UnitObject GetUnitNextTurn(int turn)
-    {
-        if (orderdedUnits.Count == 0) return null;
-        // 현재 턴에서 특정 턴만큼 미리 이동
-        turn = unitTurnIndex + turn;
-        while (turn >= orderdedUnits.Count) turn -= orderdedUnits.Count;
-        return orderdedUnits[turn];
-    }
-
-    public void GameOver()
-    {
-
-    }
-    #endregion*/
 }

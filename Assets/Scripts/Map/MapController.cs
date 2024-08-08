@@ -5,16 +5,24 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static MapController Instance { get { return instance; } }
+    private static MapController instance;
+    private void Awake()
     {
-        gameObject.AddComponent<Grid>();
-        MapObject.Create(Resources.Load<Map>("New Map")).transform.parent = transform;
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public MapObject CurrentMap { get { return currentMap; } }
+    private MapObject currentMap;
+
+    public void SetMap(MapObject map)
     {
-        
+        currentMap = map;
+        Camera.main.transform.position = currentMap.center;
     }
 }
