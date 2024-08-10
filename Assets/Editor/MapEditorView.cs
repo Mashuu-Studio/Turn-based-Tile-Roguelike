@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -116,7 +117,6 @@ namespace MapEditor
             {
                 tiles[x_inverse, y_inverse].TileChanged(type);
             }
-
         }
 
         public void Preset(int index)
@@ -159,7 +159,7 @@ namespace MapEditor
                             TileChanged(pos, Tile.TileType.FLOOR);
                         }
                     }
-                    
+
                     for (int x = 0; x < (map.width - 1) / 2; x++)
                     {
                         for (int y = 0; y < (map.height - 1) / 2; y++)
@@ -182,6 +182,22 @@ namespace MapEditor
                     }
                     break;
             }
+        }
+
+        private void Save()
+        {
+            EditorUtility.SetDirty(map);
+            AssetDatabase.SaveAssets();
+        }
+
+        private void OnSelectionChange()
+        {
+            Save();
+        }
+
+        private void OnDisable()
+        {
+            Save();
         }
     }
 }

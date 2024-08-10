@@ -51,7 +51,7 @@ public abstract class UnitObject : Poolable
         if (hp <= 0)
         {
             hp = 0;
+            Dead();
         }
-        Debug.Log($"{gameObject.name} HP : {hp}");
     }
 }

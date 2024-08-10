@@ -103,7 +103,6 @@ public class Map : ScriptableObject
                 }
             }
         }
-        this.guid = GUID.Generate().ToString();
         tiles = newTiles;
         SerializeTiles();
         OnMapChanged?.Invoke();
