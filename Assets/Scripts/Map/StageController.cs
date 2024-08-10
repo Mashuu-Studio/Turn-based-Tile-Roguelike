@@ -19,7 +19,18 @@ public class StageController : MonoBehaviour
     }
 
     public int[,] stage;
-    private List<MapObject> maps = new List<MapObject>();
+    private int width, height;
+    private Dictionary<Vector3Int, MapObject> maps = new Dictionary<Vector3Int, MapObject>();
+
+    private Vector3Int currentPos = Vector3Int.zero;
+    // 활성화 된 맵 정보
+    public MapObject CurrentMap { get { return maps[currentPos]; ; } }
+
+    public void SetMap(Vector3Int pos, MapObject map)
+    {
+        currentPos = pos;
+        Camera.main.transform.position = CurrentMap.center;
+    }
 
     private static int[] roomProb = { 50, 25, 10, 2 };
     private const int NONE = 0;
@@ -27,9 +38,9 @@ public class StageController : MonoBehaviour
     private const int BOSSROOM = 2;
     public void CreateStage(int level)
     {
-        foreach(var obj in maps)
+        foreach (var obj in maps)
         {
-            Destroy(obj.gameObject);
+            Destroy(obj.Value.gameObject);
         }
         maps.Clear();
 
@@ -40,7 +51,7 @@ public class StageController : MonoBehaviour
         int value = (int)(level * 2.5f) + 8;
         int roomAmount = value + Random.Range(0, 3);
         int roomsize = (value / 2) * 2 + 1;
-
+        width = height = roomsize;
         stage = new int[roomsize, roomsize];
         stage[value / 2, value / 2] = ROOM;
         roomAmount -= 1;
@@ -104,16 +115,17 @@ public class StageController : MonoBehaviour
                 var mapObject = MapObject.Create(MapManager.GetMap());
                 mapObject.transform.position = new Vector2(x * (11 + 3), y * (11 + 3));
                 mapObject.transform.parent = transform;
-                maps.Add(mapObject);
+                maps.Add(new Vector3Int(x, y), mapObject);
                 // 시작포인트면 시작지점맵으로 설정.
-                if (x == value / 2 && y == value / 2) SetMap(mapObject);
+                if (x == value / 2 && y == value / 2) SetMap(new Vector3Int(x, y), mapObject);
             }
         }
+        GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(Vector3Int.zero));
     }
 
     private bool Available(int x, int y)
     {
-        return x >= 0 && y >= 0 && x < stage.GetLength(0) && y < stage.GetLength(1);
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     private bool TryToCreateRoom(int x, int y, ref int roomAmount)
@@ -133,20 +145,36 @@ public class StageController : MonoBehaviour
     {
         int count = 0;
         if (x > 1 && stage[x - 1, y] == ROOM) count++;
-        if (x < stage.GetLength(0) - 1 && stage[x + 1, y] == ROOM) count++;
+        if (x < width - 1 && stage[x + 1, y] == ROOM) count++;
         if (y > 1 && stage[x, y - 1] == ROOM) count++;
-        if (y < stage.GetLength(1) - 1 && stage[x, y + 1] == ROOM) count++;
+        if (y < height - 1 && stage[x, y + 1] == ROOM) count++;
 
         return count;
     }
 
-    // 활성화 된 맵 정보
-    public MapObject CurrentMap { get { return currentMap; } }
-    private MapObject currentMap;
-
-    public void SetMap(MapObject map)
+    public bool Move(Vector3Int pos, Vector3Int dir)
     {
-        currentMap = map;
-        Camera.main.transform.position = currentMap.center;
+        // -1: 이동 불가. 0: 방 내에서 이동(필요한 작동 X) 1: 다른 방으로 이동
+        int value = CurrentMap.Move(pos.x + dir.x, pos.y + dir.y);
+
+        if (value == -1) return false; // 이동 불가
+        else if (value == 1)
+        {
+            MoveMap(dir);
+            return false;
+        }
+        else return true;
+    }
+
+    // 다른 맵으로 이동.
+    private void MoveMap(Vector3Int dir)
+    {
+        Vector3Int pos = currentPos + dir;
+        // 우선은 바로 이동 가능. 이 후에는 맵의 클리어 정도 등에 따라 이동 가능 불가능이 달라질 예정.
+        if (Available(pos.x, pos.y) && maps.ContainsKey(pos))
+        {
+            SetMap(pos, maps[pos]);
+            GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(dir));
+        }
     }
 }

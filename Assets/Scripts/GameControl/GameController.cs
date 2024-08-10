@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
     private void Next(Vector3Int dir)
     {
         // 맵 밖에 못 나가게 하는 작업도 필요`
-        player.Move(dir);
+        if (StageController.Instance.Move(player.Pos, dir)) player.Move(dir);
         UnitController.Instance.ActivateUnits();
     }
 
@@ -53,11 +53,18 @@ public class GameController : MonoBehaviour
         player.Damaged(dmg);
     }
 
+    // 현재 Player를 관리하고 있어서 사용. 나중에 독립.
+    public void SetPlayer(Vector3Int pos)
+    {
+        player.transform.parent = StageController.Instance.CurrentMap.transform;
+        player.SetPos(pos);
+    }
+
     public Vector3Int PlayerPos { get { return player.Pos; } }
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(0,0,100,100), "NEW MAP"))
+        if (GUI.Button(new Rect(0, 0, 100, 100), "NEW MAP"))
         {
             StartGame(seed);
             StageController.Instance.CreateStage(1);

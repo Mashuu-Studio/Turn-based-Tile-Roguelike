@@ -113,4 +113,51 @@ public class MapObject : MonoBehaviour
         }
         colorList.Clear();
     }
+
+    // -1: 이동 불가 0: 방 내에서 이동 1: 다른 방으로 이동
+    public int Move(int x, int y)
+    {
+        // x가 중앙이고 y가 밖일 때 혹은 y가 중앙이고 x가 밖일 떄 다른 방으로 이동 가능.
+        if (x == data.width / 2 && (y < 0 || y >= data.height)
+            || (y == data.height / 2 && (x < 0 || x >= data.width))) return 1;
+        // 그 외의 경우에 밖이라면 이동 불가
+        else if (x < 0 || y < 0 || x >= data.width || y >= data.height) return -1;
+        // 그 외에는 방 내에서 이동
+        else return 0;
+    }
+
+    public Vector3Int RoomStartPos(Vector3Int dir)
+    {
+        // 왼방향으로(오른쪽에서) 들어왔으면 x: width - 1, y: height/2
+        // 오른방향으로(왼쪽에서) 들어왔으면 x: 0, y: height/2
+        // 위방향으로(아래에서) 들어왔으면 x: width/2 y: 0
+        // 아래방향으로(위에서) 들어왔으면 x: width/2 y: height - 1
+
+        Vector3Int pos = new Vector3Int(Width / 2, Height / 2);
+        if (dir == Vector3Int.left)
+        {
+            pos.x = Width - 1;
+            pos.y = Height / 2;
+        }
+
+        if (dir == Vector3Int.right)
+        {
+            pos.x = 0;
+            pos.y = Height / 2;
+        }
+
+        if (dir == Vector3Int.up)
+        {
+            pos.x = Width / 2;
+            pos.y = 0;
+        }
+
+        if (dir == Vector3Int.down)
+        {
+            pos.x = Width / 2;
+            pos.y = Height - 1;
+        }
+
+        return pos;
+    }
 }

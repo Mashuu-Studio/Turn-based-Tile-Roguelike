@@ -8,7 +8,7 @@ public class PlayerObject : UnitObject
     public void SetPos(Vector3Int pos)
     {
         hp = 100;
-        transform.localPosition = new Vector3(pos.x, pos.y);
+        transform.localPosition = pos;
         this.pos = pos;
     }
 
