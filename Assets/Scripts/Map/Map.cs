@@ -9,7 +9,8 @@ using UnityEngine.Scripting;
 [CreateAssetMenu(fileName = "Map Data", menuName = "Create Data/Map")]
 public class Map : ScriptableObject
 {
-    public int width, height;
+    public string guid;
+    public int width = 11, height = 7;
     public event Action OnMapChanged;
     public Tile[,] Tiles { get { return tiles; } }
     private Tile[,] tiles;
@@ -20,7 +21,7 @@ public class Map : ScriptableObject
         serializeTiles = new Tile[width * height];
 
         for (int i = 0; i < width; i++)
-        { 
+        {
             for (int j = 0; j < height; j++)
             {
                 serializeTiles[i * height + j] = tiles[i, j];
@@ -30,6 +31,9 @@ public class Map : ScriptableObject
 
     public void DeserializeTiles()
     {
+        // Deserialize 할 배열이 없다면 생성.
+        if (serializeTiles == null || serializeTiles.Length < width * height) SetMap();
+
         tiles = new Tile[width, height];
         for (int i = 0; i < width; i++)
         {
@@ -99,6 +103,7 @@ public class Map : ScriptableObject
                 }
             }
         }
+        this.guid = GUID.Generate().ToString();
         tiles = newTiles;
         SerializeTiles();
         OnMapChanged?.Invoke();

@@ -19,19 +19,9 @@ public class GameController : MonoBehaviour
     #endregion
 
 
-    [SerializeField] PlayerObject player;
-    private void Start()
-    {
-        // Start 순서가 안 꼬이게 하기 위한 작업.
-        MapController.Instance.gameObject.AddComponent<Grid>();
-        var map = MapObject.Create(Resources.Load<Map>("New Map"));
-        map.transform.parent = MapController.Instance.transform;
-        MapController.Instance.SetMap(map);
+    public int seed;
+    [SerializeField] private PlayerObject player;
 
-        // 같은 맵에 두기 위한 작업. 나중에는 독립.
-        player.transform.parent = MapController.Instance.CurrentMap.transform;
-        player.SetPos(Vector3Int.zero);
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow)) Next(Vector3Int.right);
@@ -43,6 +33,13 @@ public class GameController : MonoBehaviour
     // 행동을 진행하면 UnitController에서 행동 활성화
     // 다음 행동을 할 때까지 대기.
     // 체크용 턴 넘기기
+
+    public void StartGame(int seed)
+    {
+        this.seed = seed;
+        Random.InitState(seed);
+    }
+
     private void Next(Vector3Int dir)
     {
         // 맵 밖에 못 나가게 하는 작업도 필요`
@@ -57,4 +54,17 @@ public class GameController : MonoBehaviour
     }
 
     public Vector3Int PlayerPos { get { return player.Pos; } }
+
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(0,0,100,100), "NEW MAP"))
+        {
+            StartGame(seed);
+            StageController.Instance.CreateStage(1);
+
+            // 같은 맵에 두기 위한 작업. 나중에는 독립.
+            player.transform.parent = StageController.Instance.CurrentMap.transform;
+            player.SetPos(Vector3Int.zero);
+        }
+    }
 }

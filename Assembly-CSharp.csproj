@@ -65,21 +65,21 @@
     <Compile Include="Assets\Scripts\Object\Core\Pool.cs" />
     <Compile Include="Assets\Scripts\Data\Data.cs" />
     <Compile Include="Assets\Scripts\Data\AttackManager.cs" />
+    <Compile Include="Assets\Scripts\Map\StageController.cs" />
     <Compile Include="Assets\Scripts\Object\UnitObject.cs" />
     <Compile Include="Assets\Scripts\Object\EnemyObject.cs" />
     <Compile Include="Assets\Scripts\Map\MapObject.cs" />
     <Compile Include="Assets\Scripts\Data\Initializer.cs" />
     <Compile Include="Assets\Scripts\Object\PlayerObject.cs" />
     <Compile Include="Assets\Scripts\Data\UnitManager.cs" />
-    <Compile Include="Assets\Scripts\GameControl\StageController.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\Astar.cs" />
     <Compile Include="Assets\Scripts\Object\Projectile.cs" />
     <Compile Include="Assets\Scripts\Map\Map.cs" />
     <Compile Include="Assets\Scripts\Map\Tile.cs" />
-    <Compile Include="Assets\Scripts\Map\MapController.cs" />
     <Compile Include="Assets\Scripts\Data\SpriteManager.cs" />
     <Compile Include="Assets\Scripts\Object\PoolController.cs" />
+    <Compile Include="Assets\Scripts\Map\MapManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

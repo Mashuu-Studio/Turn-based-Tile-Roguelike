@@ -46,7 +46,7 @@ public class UnitController : MonoBehaviour
     };
     public void ActivateUnits()
     {
-        MapController.Instance.CurrentMap.ClearRange();
+        StageController.Instance.CurrentMap.ClearRange();
         // 우선 랜덤으로 작동. 
         foreach (var unit in units)
         {
@@ -61,8 +61,8 @@ public class UnitController : MonoBehaviour
                     int r = Random.Range(0, dirs.Length);
                     dir = dirs[r];
                     pos = unit.Pos + dir;
-                } while (!(pos.x >= 0 && pos.x < MapController.Instance.CurrentMap.Width
-                && pos.y >= 0 && pos.y < MapController.Instance.CurrentMap.Height));
+                } while (!(pos.x >= 0 && pos.x < StageController.Instance.CurrentMap.Width
+                && pos.y >= 0 && pos.y < StageController.Instance.CurrentMap.Height));
                 unit.Move(dir);
             }
             else

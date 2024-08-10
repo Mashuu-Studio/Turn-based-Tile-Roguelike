@@ -6,6 +6,7 @@ public class Initializer : MonoBehaviour
 {
     private void Awake()
     {
+        MapManager.Init();
         AttackManager.Init();
         UnitManager.Init();
     }
