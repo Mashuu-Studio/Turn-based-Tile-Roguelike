@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
+using UnityEditor.Callbacks;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -14,6 +16,7 @@ public class Map : ScriptableObject
     public event Action OnMapChanged;
     public Tile[,] Tiles { get { return tiles; } }
     private Tile[,] tiles;
+
     [SerializeField] private Tile[] serializeTiles;
 
     private void SerializeTiles()

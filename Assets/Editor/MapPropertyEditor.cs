@@ -1,14 +1,28 @@
+using MapEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
-
+using static UnityEngine.GraphicsBuffer;
 
 [CustomEditor(typeof(Map))]
-public class MapPropertyMapEditor : Editor
+public class MapPropertyEditor : Editor
 {
     private SerializedProperty widthProp;
     private SerializedProperty heightProp;
+
+    [OnOpenAsset()]
+    public static bool OnOpenAsset(int instanceID, int line)
+    {
+        var target = EditorUtility.InstanceIDToObject(instanceID) as Map;
+        if (target)
+        {
+            MapEditorWindow.OpenWindow(target);
+            return true;
+        }
+        return false;
+    }
 
     private void OnEnable()
     {
