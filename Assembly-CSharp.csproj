@@ -77,8 +77,10 @@
     <Compile Include="Assets\Scripts\Object\Projectile.cs" />
     <Compile Include="Assets\Scripts\Map\Map.cs" />
     <Compile Include="Assets\Scripts\Map\Tile.cs" />
+    <Compile Include="Assets\Scripts\Data\Unit.cs" />
     <Compile Include="Assets\Scripts\Data\SpriteManager.cs" />
     <Compile Include="Assets\Scripts\Object\PoolController.cs" />
+    <Compile Include="Assets\Scripts\Data\Attack.cs" />
     <Compile Include="Assets\Scripts\Map\MapManager.cs" />
   </ItemGroup>
   <ItemGroup>

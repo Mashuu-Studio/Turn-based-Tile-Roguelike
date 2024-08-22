@@ -31,7 +31,7 @@ namespace MapEditor
             this.tilePalette = tilePalette;
 
             this.map = map;
-            this.map.OnMapChanged += DrawView;
+            this.map.OnChanged += DrawView;
             this.map.LoadMap();
             // View의 크기가 바뀌면 가운데로 위치 조정 다시 해줌.
             RegisterCallback<GeometryChangedEvent>(evt => DrawView());

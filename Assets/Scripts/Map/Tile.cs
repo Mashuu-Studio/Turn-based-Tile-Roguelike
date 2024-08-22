@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Tile : ScriptableObject
+public class Tile : Data
 {
     public enum TileType { NONE = 0, FLOOR, OBSTARCLE, }
     public TileType type;
-    public string guid;
     public Tile()
     {
         type = TileType.FLOOR;

@@ -60,19 +60,28 @@
     <Analyzer Include="D:\Program Files\Unity\Editor\2022.3.38f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\Core\InspectorView.cs" />
     <Compile Include="Assets\Editor\MapPropertyEditor.cs" />
-    <Compile Include="Assets\Editor\MapEditor.cs" />
-    <Compile Include="Assets\Editor\TileBrushView.cs" />
-    <Compile Include="Assets\Editor\MapEditorView.cs" />
-    <Compile Include="Assets\Editor\SupportItemView.cs" />
-    <Compile Include="Assets\Editor\MapInspectorView.cs" />
-    <Compile Include="Assets\Editor\TilePaletteView.cs" />
-    <Compile Include="Assets\Editor\MapEditorTileView.cs" />
-    <Compile Include="Assets\Editor\SplitView.cs" />
+    <Compile Include="Assets\Editor\Attack Editor\AttackEditor.cs" />
+    <Compile Include="Assets\Editor\Core\SplitView.cs" />
+    <Compile Include="Assets\Editor\Attack Editor\AttackEditorView.cs" />
+    <Compile Include="Assets\Editor\Map Editor\SupportItemView.cs" />
+    <Compile Include="Assets\Editor\Map Editor\MapEditor.cs" />
+    <Compile Include="Assets\Editor\Map Editor\MapEditorTileView.cs" />
+    <Compile Include="Assets\Editor\Map Editor\TileBrushView.cs" />
+    <Compile Include="Assets\Editor\Unit Editor\UnitEditor.cs" />
+    <Compile Include="Assets\Editor\AttackPropertyEditor.cs" />
+    <Compile Include="Assets\Editor\Map Editor\MapEditorView.cs" />
+    <Compile Include="Assets\Editor\Attack Editor\AttackEditorTileView.cs" />
+    <Compile Include="Assets\Editor\Map Editor\TilePaletteView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Editor\MapEditor.uxml" />
-    <None Include="Assets\Editor\MapEditor.uss" />
+    <None Include="Assets\Editor\Unit Editor\UnitEditor.uss" />
+    <None Include="Assets\Editor\Unit Editor\UnitEditor.uxml" />
+    <None Include="Assets\Editor\Attack Editor\AttackEditor.uxml" />
+    <None Include="Assets\Editor\Attack Editor\AttackEditor.uss" />
+    <None Include="Assets\Editor\Map Editor\MapEditor.uxml" />
+    <None Include="Assets\Editor\Map Editor\MapEditor.uss" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

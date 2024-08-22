@@ -9,11 +9,10 @@ using UnityEngine;
 using UnityEngine.Scripting;
 
 [CreateAssetMenu(fileName = "Map Data", menuName = "Create Data/Map")]
-public class Map : ScriptableObject
+public class Map : Data
 {
-    public string guid;
+    public event Action OnChanged;
     public int width = 11, height = 7;
-    public event Action OnMapChanged;
     public Tile[,] Tiles { get { return tiles; } }
     private Tile[,] tiles;
 
@@ -80,7 +79,6 @@ public class Map : ScriptableObject
                 {
                     Tile tile = CreateInstance(typeof(Tile)) as Tile;
                     tile.name = $"({i},{j})";
-                    tile.guid = GUID.Generate().ToString();
                     AssetDatabase.AddObjectToAsset(tile, this);
                     newTiles[i, j] = tile;
                 }
@@ -108,7 +106,7 @@ public class Map : ScriptableObject
         }
         tiles = newTiles;
         SerializeTiles();
-        OnMapChanged?.Invoke();
+        OnChanged?.Invoke();
         AssetDatabase.SaveAssets();
     }
 }
