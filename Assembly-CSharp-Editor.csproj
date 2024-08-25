@@ -65,6 +65,8 @@
     <Compile Include="Assets\Editor\Attack Editor\AttackEditor.cs" />
     <Compile Include="Assets\Editor\Core\SplitView.cs" />
     <Compile Include="Assets\Editor\Attack Editor\AttackEditorView.cs" />
+    <Compile Include="Assets\Editor\Unit Editor\UnitEditorAttackSelectorView.cs" />
+    <Compile Include="Assets\Editor\Unit Editor\UnitEditorAttackItem.cs" />
     <Compile Include="Assets\Editor\Map Editor\SupportItemView.cs" />
     <Compile Include="Assets\Editor\Map Editor\MapEditor.cs" />
     <Compile Include="Assets\Editor\Map Editor\MapEditorTileView.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Assets\Editor\Map Editor\MapEditorView.cs" />
     <Compile Include="Assets\Editor\Attack Editor\AttackEditorTileView.cs" />
     <Compile Include="Assets\Editor\Map Editor\TilePaletteView.cs" />
+    <Compile Include="Assets\Editor\Unit Editor\UnitEditorAttackView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Editor\Unit Editor\UnitEditor.uss" />

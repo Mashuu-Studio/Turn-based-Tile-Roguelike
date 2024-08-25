@@ -14,14 +14,14 @@ public static class UnitManager
                 key = "TEST1",
                 hp = 3,
                 dmg = 1,
-                attack = AttackManager.GetAttack("+")
+                attacks = new List<Attack>(){ AttackManager.GetAttack("+") }
             },
             new Unit()
             {
                 key = "TEST2",
                 hp = 3,
                 dmg = 1,
-                attack = AttackManager.GetAttack("x")
+                attacks = new List<Attack>(){ AttackManager.GetAttack("x") }
             },
         };
     }

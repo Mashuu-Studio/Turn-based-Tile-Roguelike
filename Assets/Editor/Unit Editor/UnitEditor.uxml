@@ -1,12 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<engine:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:engine="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
->
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Editor/Unit%20Editor/UnitEditor.uss?fileID=7433441132597879392&amp;guid=81d429a3cfdeb63408f945a487105bab&amp;type=3#UnitEditor" />
-	<engine:Label text="Hello World! From UXML" />
-	<engine:Label class="custom-label" text="Hello World! With Style" />
-
-</engine:UXML>
+    <SplitView fixed-pane-initial-dimension="300">
+        <ui:VisualElement style="flex-grow: 1;">
+            <uie:Toolbar />
+            <InspectorView style="height: 100%;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <SplitView orientation="Vertical" fixed-pane-initial-dimension="300">
+                <ui:VisualElement style="flex-grow: 1;">
+                    <uie:Toolbar />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1;">
+                    <uie:Toolbar />
+                    <SplitView fixed-pane-initial-dimension="300">
+                        <ui:VisualElement style="flex-grow: 1;">
+                            <UnitEditor.UnitEditorAttackSelectorView style="height: 100%;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-grow: 1;">
+                            <UnitEditor.UnitEditorAttackView style="width: auto; height: 100%;" />
+                        </ui:VisualElement>
+                    </SplitView>
+                </ui:VisualElement>
+            </SplitView>
+        </ui:VisualElement>
+    </SplitView>
+</ui:UXML>

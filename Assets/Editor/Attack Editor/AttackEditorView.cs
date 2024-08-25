@@ -17,8 +17,8 @@ namespace AttackEditor
         private bool startBrushing;
         private bool brushSelected;
 
-        private const int WIDTH = 11;
-        private const int HEIGHT = 11;
+        public const int MAP_WIDTH = 11;
+        public const int MAP_HEIGHT = 11;
         private Vector3Int center;
         public new class UxmlFactory : UxmlFactory<AttackEditorView, UxmlTraits> { }
 
@@ -26,8 +26,8 @@ namespace AttackEditor
         {
             ClearClassList();
             AddToClassList("MapEditorView");
-            center = new Vector3Int(WIDTH/ 2, HEIGHT / 2);
-            tiles = new AttackEditorTileView[WIDTH, HEIGHT];
+            center = new Vector3Int(MAP_WIDTH/ 2, MAP_HEIGHT / 2);
+            tiles = new AttackEditorTileView[MAP_WIDTH, MAP_HEIGHT];
         }
 
         // View 초기화
@@ -55,9 +55,9 @@ namespace AttackEditor
             Clear();
             Vector2 viewSize = new Vector2(layout.width, layout.height);
             Vector3Int pos = Vector3Int.zero;
-            for (int x = 0; x < WIDTH; x++)
+            for (int x = 0; x < MAP_WIDTH; x++)
             {
-                for (int y = 0; y < HEIGHT; y++)
+                for (int y = 0; y < MAP_HEIGHT; y++)
                 {
                     // 가비지 최소화를 위해 반복적인 생성자 호출이 아닌 변수 변경
                     pos.x = x;
@@ -93,12 +93,13 @@ namespace AttackEditor
         // 타일 생성
         private void CreateTileView(Vector3Int pos, Vector2 viewSize, bool unit, bool selected)
         {
-            // 좌하단을 0,0으로 시작하여 우상단을 width-1,height-1로 마무리.
+            // 좌하단을 0,0으로 시작하여 우상단을 MAP_WIDTH-1,MAP_HEIGHT-1로 마무리.
             // 타일 사이즈는 기본적으로 50으로 설정.
             // 가운데로 이동시켜야 함.
             AttackEditorTileView tileView = new AttackEditorTileView(pos, unit, selected);
             float tileSize = 50;
-            Vector2 startPos = new Vector2((viewSize.x - WIDTH * tileSize) / 2, (viewSize.y - HEIGHT * tileSize) / 2);
+            Vector2 startPos = new Vector2((viewSize.x - MAP_WIDTH * tileSize) / 2, (viewSize.y - MAP_HEIGHT * tileSize) / 2);
+           
             tileView.style.position = Position.Absolute;
             tileView.style.left = startPos.x + pos.x * tileSize;
             tileView.style.top = startPos.y + pos.y * tileSize;
@@ -138,8 +139,8 @@ namespace AttackEditor
             bool horizontal = tilePalette.GetSupportActivate(TilePaletteView.SupportItemType.HORIZONTAL_SYMMETRY);
             bool vertical = tilePalette.GetSupportActivate(TilePaletteView.SupportItemType.VERTICAL_SYMMETRY);
 
-            int x_inverse = map.width - 1 - pos.x;
-            int y_inverse = map.height - 1 - pos.y;
+            int x_inverse = map.MAP_WIDTH - 1 - pos.x;
+            int y_inverse = map.MAP_HEIGHT - 1 - pos.y;
             // 좌우 대칭 그리기
             if (horizontal)
             {

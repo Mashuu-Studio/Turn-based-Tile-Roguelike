@@ -19,6 +19,10 @@ namespace UnitEditor
             return false;
         }
 
+        InspectorView inspectorView;
+        UnitEditorAttackSelectorView attackSelectorView;
+        UnitEditorAttackView attackView;
+
         [MenuItem("Window/Custom Editor/Unit Editor")]
         public static void ShowExample()
         {
@@ -28,7 +32,9 @@ namespace UnitEditor
 
         public static void OpenWindow(Unit unit)
         {
-
+            UnitEditorWindow wnd = GetWindow<UnitEditorWindow>();
+            wnd.titleContent = new GUIContent("UnitEditor");
+            wnd.PopulateView(unit);
         }
 
         public void CreateGUI()
@@ -42,16 +48,26 @@ namespace UnitEditor
 
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Unit Editor/UnitEditor.uss");
             root.styleSheets.Add(styleSheet);
+
+            inspectorView = root.Q<InspectorView>();
+            attackSelectorView = root.Q<UnitEditorAttackSelectorView>();
+            attackView = root.Q<UnitEditorAttackView>();
         }
 
         public void PopulateView(Unit unit)
         {
-
+            if (unit)
+            {
+                inspectorView.PopulateView(unit);
+                attackSelectorView.PopulateView(attackView);
+                attackView.PopulateView(unit);
+            }
         }
 
         private void OnSelectionChange()
         {
-            
+            Unit unit = Selection.activeObject as Unit;
+            PopulateView(unit);
         }
     }
 }

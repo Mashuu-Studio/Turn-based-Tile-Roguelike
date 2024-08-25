@@ -13,8 +13,11 @@ public class EnemyObject : UnitObject
         // 우선 임시로 현재 Player를 가지고 있는 GameController에 직접적으로 연결
         // 후에는 독립적으로 사용될 예정.
 
-        StageController.Instance.CurrentMap.ShowRange(pos, data.attack.attackRange);
-        foreach (var attackPos in data.attack.attackRange)
+        int rand = Random.Range(0, data.attacks.Count);
+        var attack = data.attacks[rand];
+
+        StageController.Instance.CurrentMap.ShowRange(pos, attack.attackRange);
+        foreach (var attackPos in attack.attackRange)
         {
             if (GameController.Instance.PlayerPos == pos + attackPos)
             {
