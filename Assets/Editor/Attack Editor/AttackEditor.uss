@@ -1,4 +1,4 @@
-.Tile, .Tile_Unit  {
+.Tile, .Tile_Unit {
     width: 50px;
     height: 50px;
     margin: 5px;
@@ -11,4 +11,36 @@
 
 .Tile_Unit {
     background-image: url("project://database/Assets/Sprites/Editor/UNIT%20TILE.png?fileID=2800000&guid=d5ec6f6eeba7b6749bb75ccd4139082a&type=3#UNIT TILE");
+}
+
+.LEFT_UP {
+    background-image: url("project://database/Assets/Sprites/Editor/LEFT_UP.png?fileID=2800000&guid=d234885652457e4488c6cbb2e978ce7a&type=3#LEFT_UP");
+}
+
+.UP {
+    background-image: url("project://database/Assets/Sprites/Editor/UP.png?fileID=2800000&guid=f82f0e2163227894ba0ad4af628f611e&type=3#UP");
+}
+
+.RIGHT_UP {
+    background-image: url("project://database/Assets/Sprites/Editor/RIGHT_UP.png?fileID=2800000&guid=1c0506f05131e0946adcd8015296eedc&type=3#RIGHT_UP");
+}
+
+.RIGHT {
+    background-image: url("project://database/Assets/Sprites/Editor/RIGHT.png?fileID=2800000&guid=d82e8fd0f6f4818489a0bbcc6123e844&type=3#RIGHT");
+}
+
+.RIGHT_DOWN {
+    background-image: url("project://database/Assets/Sprites/Editor/RIGHT_DOWN.png?fileID=2800000&guid=978771591fc82864d998ee6c06e48f57&type=3#RIGHT_DOWN");
+}
+
+.DOWN {
+    background-image: url("project://database/Assets/Sprites/Editor/DOWN.png?fileID=2800000&guid=21a98475e39e84946a9f581b2cf12577&type=3#DOWN");
+}
+
+.LEFT_DOWN {
+    background-image: url("project://database/Assets/Sprites/Editor/LEFT_DOWN.png?fileID=2800000&guid=d09c17db8960042488ec9ce114870929&type=3#LEFT_DOWN");
+}
+
+.LEFT {
+    background-image: url("project://database/Assets/Sprites/Editor/LEFT.png?fileID=2800000&guid=678dd4d4219e81245b17289f9dd7c68a&type=3#LEFT");
 }

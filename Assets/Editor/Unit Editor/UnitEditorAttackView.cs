@@ -82,13 +82,18 @@ namespace UnitEditor
             // 전부 미선택상태로
             foreach (var tile in tiles)
             {
-                TileChanged(tile.pos, false);
+                TileChanged(tile.pos, AttackEditorTileView.SelectState.UNSELECTED);
             }
 
-            // range에 있는 부분만 색 추가
+            // 실제로 선택한 부분은 다른색.
             foreach (var pos in attack.attackRange)
             {
-                TileChanged(pos + center, true);
+                // 방향으로 인해 생긴 부분 추가.
+                foreach (var p in attack.GetRange(pos + center, new Vector3Int(AttackEditorView.MAP_WIDTH, AttackEditorView.MAP_HEIGHT)))
+                {
+                    TileChanged(p, AttackEditorTileView.SelectState.ADDED);
+                }
+                TileChanged(pos + center, AttackEditorTileView.SelectState.SELECTED);
             }
         }
 
@@ -98,7 +103,7 @@ namespace UnitEditor
             // 좌하단을 0,0으로 시작하여 우상단을 width-1,height-1로 마무리.
             // 타일 사이즈는 기본적으로 50으로 설정.
             // 가운데로 이동시켜야 함.
-            AttackEditorTileView tileView = new AttackEditorTileView(pos, unit, false);
+            AttackEditorTileView tileView = new AttackEditorTileView(pos, unit);
             float min = viewSize.x < viewSize.y ? viewSize.x : viewSize.y;
             float tileSize = min * 0.9f / AttackEditorView.MAP_WIDTH; // 뷰의 크기에 따라 조정.
             Vector2 startPos = new Vector2((viewSize.x - AttackEditorView.MAP_WIDTH * tileSize) / 2, (viewSize.y - AttackEditorView.MAP_HEIGHT * tileSize) / 2);
@@ -106,15 +111,15 @@ namespace UnitEditor
             tileView.style.width = tileView.style.height = tileSize;
             tileView.style.position = Position.Absolute;
             tileView.style.left = startPos.x + pos.x * tileSize;
-            tileView.style.top = startPos.y + pos.y * tileSize;
+            tileView.style.top = startPos.y + (AttackEditorView.MAP_HEIGHT - pos.y) * tileSize; // 맵 배치 특성상 상하는 역방향으로
 
             tiles[pos.x, pos.y] = tileView;
             Add(tileView);
         }
 
-        private void TileChanged(Vector3Int pos, bool b)
+        private void TileChanged(Vector3Int pos, AttackEditorTileView.SelectState state)
         {
-            tiles[pos.x, pos.y].TileChanged(b);
+            tiles[pos.x, pos.y].TileChanged(state);
         }
     }
 }

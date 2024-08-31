@@ -69,6 +69,8 @@
     <Compile Include="Assets\Editor\Unit Editor\UnitEditorAttackItem.cs" />
     <Compile Include="Assets\Editor\Map Editor\SupportItemView.cs" />
     <Compile Include="Assets\Editor\Map Editor\MapEditor.cs" />
+    <Compile Include="Assets\Editor\Attack Editor\AttackEditorSupportIcon.cs" />
+    <Compile Include="Assets\Editor\Attack Editor\AttackEditorTileEditorView.cs" />
     <Compile Include="Assets\Editor\Map Editor\MapEditorTileView.cs" />
     <Compile Include="Assets\Editor\Map Editor\TileBrushView.cs" />
     <Compile Include="Assets\Editor\Unit Editor\UnitEditor.cs" />

@@ -22,6 +22,7 @@ namespace AttackEditor
         }
 
         AttackEditorView editorView;
+        AttackEditorTileEditorView tileEditorView;
         InspectorView inspectorView;
 
         [MenuItem("Window/Custom Editor/Attack Editor")]
@@ -51,6 +52,7 @@ namespace AttackEditor
             root.styleSheets.Add(styleSheet);
 
             editorView = root.Q<AttackEditorView>();
+            tileEditorView = root.Q<AttackEditorTileEditorView>();
             inspectorView = root.Q<InspectorView>();
         }
 
@@ -58,7 +60,8 @@ namespace AttackEditor
         {
             if (attack)
             {
-                editorView.PopulateView(attack);
+                editorView.PopulateView(attack, tileEditorView);
+                tileEditorView.PopulateView(attack, editorView);
                 inspectorView.PopulateView(attack);
             }
         }
