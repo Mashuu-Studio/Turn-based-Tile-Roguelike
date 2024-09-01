@@ -15,8 +15,10 @@ namespace AttackEditor
         Vector3Int pos;
         AttackEditorSupportIcon[] supportIcons = new AttackEditorSupportIcon[Enum.GetValues(typeof(Attack.SpreadInfo.SpreadType)).Length];
 
+        IntegerField rangeField;
+        IntegerField intervalField;
         public new class UxmlFactory : UxmlFactory<AttackEditorTileEditorView, UxmlTraits> { }
-        
+
         public void Select(Vector3Int pos)
         {
             this.pos = pos;
@@ -27,12 +29,59 @@ namespace AttackEditor
 
         private void SetView()
         {
+            // range, interval 조정 인풋 필드
+            rangeField = new IntegerField();
+            rangeField.maxLength = 1;
+            rangeField.RegisterCallback<ChangeEvent<int>>(evt =>
+            {
+                attack.SetRange(pos, evt.newValue);
+                attackEditorView.DrawView();
+            });
+
+            rangeField.label = "RANGE";
+            Add(rangeField);
+
+            intervalField = new IntegerField();
+            intervalField.maxLength = 1;
+            intervalField.RegisterCallback<ChangeEvent<int>>(evt =>
+            {
+                attack.SetInterval(pos, evt.newValue);
+                attackEditorView.DrawView();
+            });
+
+            intervalField.label = "INTERVAL";
+            Add(intervalField);
+
+
             Attack.SpreadInfo.SpreadType[] types = Enum.GetValues(typeof(Attack.SpreadInfo.SpreadType)) as Attack.SpreadInfo.SpreadType[];
 
-            for (int i =0;i < types.Length;i++) 
+            for (int i = 0; i < types.Length; i++)
             {
                 CreateIcon(types[i]);
             }
+
+            // Clear 버튼
+            {
+                Button clearButton = new Button();
+                var label = new Label("CLEAR");
+                label.style.fontSize = 18;
+                label.style.color = Color.black;
+                label.style.alignContent = Align.Center;
+                clearButton.Add(label);
+
+                clearButton.style.position = Position.Absolute;
+                clearButton.style.top = 250;
+                clearButton.RegisterCallback<ClickEvent>(evt =>
+                {
+                    ClearInfo();
+                    SetInfo();
+                    attackEditorView.DrawView();
+                });
+
+                Add(clearButton);
+
+            }
+
         }
 
         private void CreateIcon(Attack.SpreadInfo.SpreadType type)
@@ -56,8 +105,8 @@ namespace AttackEditor
                 case SpreadInfo.SpreadType.LEFT: iconPos += Vector2Int.left; break;
             }
 
-            icon.style.left = iconPos.x * 50;
-            icon.style.top =  iconPos.y * 50;
+            icon.style.left = iconPos.x * 50 + 50;
+            icon.style.top = iconPos.y * 50 + 75; // 위에 있는 타일 위치 생각해서.
 
             icon.RegisterCallback<PointerDownEvent>(evt =>
             {
@@ -78,22 +127,30 @@ namespace AttackEditor
         private void SetInfo()
         {
             // attack에서 pos 값을 넣어 정보 기입.
-            
-            for (int i = 0; i < supportIcons.Length; i++)
-                supportIcons[i].isOn = false;
-
             if (attack.spreadInfos.ContainsKey(pos))
             {
+                var info = attack.spreadInfos[pos];
+                rangeField.value = info.range;
+                intervalField.value = info.interval;
                 for (int i = 0; i < supportIcons.Length; i++)
                 {
-                    supportIcons[i].isOn = attack.spreadInfos[pos].spreadTypes[i];
+                    supportIcons[i].isOn = info.spreadTypes[i];
                 }
+            }
+            else
+            {
+                rangeField.value = 0;
+                intervalField.value = 0;
+
+                for (int i = 0; i < supportIcons.Length; i++)
+                    supportIcons[i].isOn = false;
             }
         }
 
         private void ClearInfo()
         {
             // 해당 위치에 대한 정보를 다 날려줌.
+            attack.ClearSpreadInfo(pos);
         }
 
         internal void PopulateView(Attack attack, AttackEditorView attackEditorView)

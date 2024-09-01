@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static Attack.SpreadInfo;
 
 
 [CreateAssetMenu(fileName = "Attack Data", menuName = "Create Data/Attack")]
@@ -11,6 +12,9 @@ public class Attack : Data
 {
     public class SpreadInfo
     {
+        // 어디까지, 얼마간격으로 퍼질지 변수 필요.
+        public int range = 0;
+        public int interval = 0;
         public Vector3Int pos;
         public enum SpreadType { LEFT_UP = 0, UP, RIGHT_UP, RIGHT, RIGHT_DOWN, DOWN, LEFT_DOWN, LEFT }
         public bool[] spreadTypes = new bool[Enum.GetValues(typeof(SpreadType)).Length];
@@ -47,6 +51,26 @@ public class Attack : Data
 
         // 정보가 사실상 비어있다면 삭제.
         if (spreadInfos[pos].SpreadTypes.Count == 0) spreadInfos.Remove(pos);
+
+        AssetDatabase.SaveAssets();
+    }
+
+    public void SetRange(Vector3Int pos, int range)
+    {
+        if (!spreadInfos.ContainsKey(pos)) spreadInfos.Add(pos, new SpreadInfo());
+        
+        spreadInfos[pos].range = range;
+
+        AssetDatabase.SaveAssets();
+    }
+
+    public void SetInterval(Vector3Int pos, int interval)
+    {
+        if (!spreadInfos.ContainsKey(pos)) spreadInfos.Add(pos, new SpreadInfo());
+        
+        spreadInfos[pos].interval = interval;
+
+        AssetDatabase.SaveAssets();
     }
 
     public List<Vector3Int> GetRange(Vector3Int pos, Vector3Int mapSize)
@@ -67,24 +91,33 @@ public class Attack : Data
         {
             // 현재 위치를 기준으로 방향 세팅.
             Vector3Int pos = originPos + info.pos;
+            int r = info.range;
+            if (r == 0) r = 99; // 0으로 되어있다면 무한으로 세팅.
 
             // 해당 방향으로 끝까지 쭉 진행.
             // 맵 밖으로 나갔다면 더 이상 해당 방향 진행 X
             while (pos.x >= 0 && pos.x < mapSize.x
-                && pos.y >= 0 && pos.y < mapSize.y)
+                && pos.y >= 0 && pos.y < mapSize.y
+                && r > 0)
             {
-                // 각 방향별로 세팅.
-                switch (dir)
+                int interval = info.interval;
+                do
                 {
-                    case SpreadInfo.SpreadType.LEFT_UP: pos += Vector3Int.left + Vector3Int.up; break;
-                    case SpreadInfo.SpreadType.UP: pos += Vector3Int.up; break;
-                    case SpreadInfo.SpreadType.RIGHT_UP: pos += Vector3Int.right + Vector3Int.up; break;
-                    case SpreadInfo.SpreadType.RIGHT: pos += Vector3Int.right; break;
-                    case SpreadInfo.SpreadType.RIGHT_DOWN: pos += Vector3Int.right + Vector3Int.down; break;
-                    case SpreadInfo.SpreadType.DOWN: pos += Vector3Int.down; break;
-                    case SpreadInfo.SpreadType.LEFT_DOWN: pos += Vector3Int.left + Vector3Int.down; break;
-                    case SpreadInfo.SpreadType.LEFT: pos += Vector3Int.left; break;
-                }
+                    // 각 방향별로 세팅.
+                    switch (dir)
+                    {
+                        case SpreadInfo.SpreadType.LEFT_UP: pos += Vector3Int.left + Vector3Int.up; break;
+                        case SpreadInfo.SpreadType.UP: pos += Vector3Int.up; break;
+                        case SpreadInfo.SpreadType.RIGHT_UP: pos += Vector3Int.right + Vector3Int.up; break;
+                        case SpreadInfo.SpreadType.RIGHT: pos += Vector3Int.right; break;
+                        case SpreadInfo.SpreadType.RIGHT_DOWN: pos += Vector3Int.right + Vector3Int.down; break;
+                        case SpreadInfo.SpreadType.DOWN: pos += Vector3Int.down; break;
+                        case SpreadInfo.SpreadType.LEFT_DOWN: pos += Vector3Int.left + Vector3Int.down; break;
+                        case SpreadInfo.SpreadType.LEFT: pos += Vector3Int.left; break;
+                    }
+                    r--;
+                    interval--;
+                } while (interval >= 0);
 
                 // 맵 밖으로 나갔다면 더 이상 해당 방향 진행 X
                 if (pos.x < 0 || pos.x >= mapSize.x || pos.y < 0 || pos.y >= mapSize.y) break;
