@@ -61,7 +61,7 @@ namespace MapEditor
                 {
                     // 가비지 최소화를 위해 반복적인 생성자 호출이 아닌 변수 변경
                     pos.x = x;
-                    pos.y = y;
+                    pos.y = map.height - 1 - y; // 맵의 위아래가 항상 바뀌어있음.
 
                     CreateTileView(map.Tiles[x, y], pos, viewSize, mapSize);
                 }

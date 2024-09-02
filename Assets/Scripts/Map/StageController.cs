@@ -103,6 +103,7 @@ public class StageController : MonoBehaviour
         }
 
         // 구성이 끝나고 나면 맵 배치. 우선은 한 종류로 세팅.
+        // 이 때 시작지점은 방이 정해져있음. Start. 해당 맵으로 먼저 설정.
         // 방 별로 어디 입구가 비어있는지 미리 체크한 뒤
         // 방의 위치에 따라서 맵 선택 및 생성.
         // 맵끼리 떨어진 칸은 3칸. 벽 한칸, 여유공간 한 칸.
@@ -112,12 +113,14 @@ public class StageController : MonoBehaviour
             for (int y = 0; y < roomsize; y++)
             {
                 if (stage[x, y] == NONE) continue;
-                var mapObject = MapObject.Create(MapManager.GetMap());
+                bool start = x == value / 2 && y == value / 2;
+                var map = start ? MapManager.GetStartMap() : MapManager.GetMap();
+                var mapObject = MapObject.Create(map);
                 mapObject.transform.position = new Vector2(x * (11 + 3), y * (11 + 3));
                 mapObject.transform.parent = transform;
                 maps.Add(new Vector3Int(x, y), mapObject);
                 // 시작포인트면 시작지점맵으로 설정.
-                if (x == value / 2 && y == value / 2) SetMap(new Vector3Int(x, y), mapObject);
+                if (start) SetMap(new Vector3Int(x, y), mapObject);
             }
         }
         GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(Vector3Int.zero));
@@ -157,13 +160,12 @@ public class StageController : MonoBehaviour
         // -1: 이동 불가. 0: 방 내에서 이동(필요한 작동 X) 1: 다른 방으로 이동
         int value = CurrentMap.Move(pos.x + dir.x, pos.y + dir.y);
 
-        if (value == -1) return false; // 이동 불가
-        else if (value == 1)
+        if (value == 1)
         {
             MoveMap(dir);
-            return false;
+            return true;
         }
-        else return true;
+        else return false;
     }
 
     // 다른 맵으로 이동.

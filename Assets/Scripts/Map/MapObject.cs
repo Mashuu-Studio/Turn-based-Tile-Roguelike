@@ -24,6 +24,14 @@ public class MapObject : MonoBehaviour
         }
     }
 
+    public bool Available(Vector3Int pos)
+    {
+        return pos.x >= 0 && pos.x < Width
+            && pos.y >= 0 && pos.y < Height
+            && (data.Tiles[pos.x, pos.y].type == Tile.TileType.FLOOR
+            || data.Tiles[pos.x, pos.y].type == Tile.TileType.UNIT);
+    }
+
     public static MapObject Create(Map map)
     {
         map.Deserialize();
@@ -58,7 +66,7 @@ public class MapObject : MonoBehaviour
                 tile.sprite = sprites[(int)map.Tiles[x, y].type];
 
                 pos.x = x;
-                pos.y = map.height - 1 - y; // 타일맵에서는 역순으로 나타나므로 역순으로 조정
+                pos.y = y; // 타일맵에서는 역순으로 나타나므로 역순으로 조정
                 tilemap.SetTile(pos, tile);
                 tilemap.SetTileFlags(pos, TileFlags.None);
             }

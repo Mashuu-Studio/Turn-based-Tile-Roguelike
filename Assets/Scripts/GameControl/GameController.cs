@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class GameController : MonoBehaviour
 {
@@ -42,9 +43,13 @@ public class GameController : MonoBehaviour
 
     private void Next(Vector3Int dir)
     {
-        // 맵 밖에 못 나가게 하는 작업도 필요`
-        if (StageController.Instance.Move(player.Pos, dir)) player.Move(dir);
-        UnitController.Instance.ActivateUnits();
+        if (StageController.Instance.Move(player.Pos, dir) 
+            || StageController.Instance.CurrentMap.Available(player.Pos + dir))
+        {
+            // 맵 밖에 못 나가게 하는 작업도 필요
+            player.Move(dir);
+            //UnitController.Instance.ActivateUnits();
+        }
     }
 
     // 현재 Player를 관리하고 있어서 사용. 나중에 독립.
@@ -68,10 +73,6 @@ public class GameController : MonoBehaviour
         {
             StartGame(seed);
             StageController.Instance.CreateStage(1);
-
-            // 같은 맵에 두기 위한 작업. 나중에는 독립.
-            player.transform.parent = StageController.Instance.CurrentMap.transform;
-            player.SetPos(Vector3Int.zero);
         }
     }
 }

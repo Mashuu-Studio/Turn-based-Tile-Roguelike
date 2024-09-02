@@ -15,7 +15,14 @@ public static class MapManager
     // 우선은 아예 랜덤으로 받아옴.
     public static Map GetMap()
     {
-        int rand = Random.Range(0, maps.Length);
+        // 우선 시작 지점의 방이 따로 구분될 수 있도록 해줌.
+        // 나중에는 모든 종류의 방이 열려있는 문에 따라서 구분될 것.
+        int rand = Random.Range(1, maps.Length);
         return maps[rand];
+    }
+
+    public static Map GetStartMap()
+    {
+        return maps[0];
     }
 }
