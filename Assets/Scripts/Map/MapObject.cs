@@ -83,8 +83,6 @@ public class MapObject : MonoBehaviour
 
             units.Add(unit);
         }
-
-        UnitController.Instance.AddUnits(units);
     }
 
     public void DeadUnit(UnitObject unit)
@@ -92,9 +90,10 @@ public class MapObject : MonoBehaviour
         units.Remove(unit);
     }
 
-    public void EnterTheMap()
+    public void Enter()
     {
-        Astar.SetMapSize(data.width, data.height);
+        //Astar.SetMapSize(data.width, data.height);
+        UnitController.Instance.AddUnits(units);
     }
 
     // 범위 표기 함수. 

@@ -29,6 +29,7 @@ public class StageController : MonoBehaviour
     public void SetMap(Vector3Int pos, MapObject map)
     {
         currentPos = pos;
+        map.Enter();
         Camera.main.transform.position = CurrentMap.center;
     }
 
@@ -114,7 +115,7 @@ public class StageController : MonoBehaviour
             {
                 if (stage[x, y] == NONE) continue;
                 bool start = x == value / 2 && y == value / 2;
-                var map = start ? MapManager.GetStartMap() : MapManager.GetMap();
+                var map = start ? MapManager.GetStartMap() : MapManager.GetMap(DoorInfo(x, y));
                 var mapObject = MapObject.Create(map);
                 mapObject.transform.position = new Vector2(x * (11 + 3), y * (11 + 3));
                 mapObject.transform.parent = transform;
@@ -124,6 +125,21 @@ public class StageController : MonoBehaviour
             }
         }
         GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(Vector3Int.zero));
+    }
+
+    private int DoorInfo(int x, int y)
+    {
+        // 좌 우 상 하
+        int value = 0;
+        if (Available(x - 1, y) && stage[x - 1, y] == ROOM) value += 1;
+        value <<= 1;
+        if (Available(x + 1, y) && stage[x + 1, y] == ROOM) value += 1;
+        value <<= 1;
+        if (Available(x, y + 1) && stage[x, y + 1] == ROOM) value += 1;
+        value <<= 1;
+        if (Available(x, y - 1) && stage[x, y - 1] == ROOM) value += 1;
+
+        return value;
     }
 
     private bool Available(int x, int y)
@@ -162,14 +178,13 @@ public class StageController : MonoBehaviour
 
         if (value == 1)
         {
-            MoveMap(dir);
-            return true;
+            return MoveMap(dir);
         }
         else return false;
     }
 
     // 다른 맵으로 이동.
-    private void MoveMap(Vector3Int dir)
+    private bool MoveMap(Vector3Int dir)
     {
         Vector3Int pos = currentPos + dir;
         // 우선은 바로 이동 가능. 이 후에는 맵의 클리어 정도 등에 따라 이동 가능 불가능이 달라질 예정.
@@ -177,6 +192,8 @@ public class StageController : MonoBehaviour
         {
             SetMap(pos, maps[pos]);
             GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(dir));
+            return true;
         }
+        return false; // 방이 없을 때는 이동할 수 없음.
     }
 }

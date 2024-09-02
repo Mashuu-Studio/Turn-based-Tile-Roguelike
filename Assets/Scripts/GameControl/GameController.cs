@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
         {
             // 맵 밖에 못 나가게 하는 작업도 필요
             player.Move(dir);
-            //UnitController.Instance.ActivateUnits();
+            UnitController.Instance.ActivateUnits();
         }
     }
 

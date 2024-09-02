@@ -61,7 +61,7 @@ public class UnitController : MonoBehaviour
                     int r = Random.Range(0, dirs.Length);
                     dir = dirs[r];
                     pos = unit.Pos + dir;
-                } while (StageController.Instance.CurrentMap.Available(pos));
+                } while (!StageController.Instance.CurrentMap.Available(pos));
                 unit.Move(dir);
             }
             else

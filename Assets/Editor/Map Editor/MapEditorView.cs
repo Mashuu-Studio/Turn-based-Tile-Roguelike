@@ -216,7 +216,7 @@ namespace MapEditor
         private void Save()
         {
             EditorUtility.SetDirty(map);
-            AssetDatabase.SaveAssets();
+            map.Save();
         }
 
         private void OnSelectionChange()

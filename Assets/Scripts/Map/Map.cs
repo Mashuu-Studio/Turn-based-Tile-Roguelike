@@ -24,11 +24,34 @@ public class Map : Data
     [SerializeField] private List<Unit> serializeEnemyValues;
     [SerializeField] private Tile[] serializeTiles;
 
+    // 좌 우 상 하로 이루어진 4개의 비트로 문의 형태 파악
+    // ex) 좌우가 열려있는 맵의 경우 1100
+    // ex) 좌우상하가 전부 열려있는 경우 1111
+    public int DoorInfoBit
+    {
+        get
+        {
+            if (tiles == null) Deserialize();
+            int value = 0;
+
+            value += (Tiles[0, height / 2].type == Tile.TileType.FLOOR ? 1 : 0);
+            value <<= 1;
+            value += (Tiles[width - 1, height / 2].type == Tile.TileType.FLOOR ? 1 : 0);
+            value <<= 1;
+            value += (Tiles[width / 2, height - 1].type == Tile.TileType.FLOOR ? 1 : 0);
+            value <<= 1;
+            value += (Tiles[width / 2, 0].type == Tile.TileType.FLOOR ? 1 : 0);
+
+            return value;
+        }
+    }
+
     public Unit GetEnemy(Vector3Int pos)
     {
         if (enemies.ContainsKey(pos)) return enemies[pos];
         return null;
     }
+
     public void AddEnemy(Vector3Int pos, Unit unit)
     {
         if (enemies == null) enemies = new Dictionary<Vector3Int, Unit>();
@@ -86,6 +109,12 @@ public class Map : Data
                 enemies.Add(serializeEnemyKeys[i], serializeEnemyValues[i]);
             }
         }
+    }
+
+    public void Save()
+    {
+        Serialize();
+        AssetDatabase.SaveAssets();
     }
 
     public void LoadMap()
@@ -147,8 +176,7 @@ public class Map : Data
             }
         }
         tiles = newTiles;
-        Serialize();
         OnChanged?.Invoke();
-        AssetDatabase.SaveAssets();
+        Save();
     }
 }
