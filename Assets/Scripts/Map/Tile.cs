@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Tile : Data
 {
-    public enum TileType { NONE = 0, FLOOR, OBSTARCLE, }
+    public enum TileType { NONE = 0, FLOOR, OBSTARCLE, UNIT }
     public TileType type;
     public Tile()
     {

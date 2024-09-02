@@ -10,11 +10,22 @@ namespace MapEditor
         public Tile tile;
         Vector2Int pos;
 
-        public MapEditorTileView(Tile tile, Vector2Int pos)
+        public MapEditorTileView(Tile tile, Map map, Vector2Int pos)
         {
             this.tile = tile;
             this.pos = pos;
             TileChanged(tile.type);
+
+            // 로드되는 경우 세팅.
+            if (tile.type == Tile.TileType.UNIT)
+            {
+                var label = new Label();
+                label.style.fontSize = 10;
+                label.style.color = Color.black;
+                var enemy = map.GetEnemy((Vector3Int)pos);
+                if (enemy != null) label.text = enemy.key;
+                Add(label);
+            }
         }
 
         // 스타일의 타입을 받기 위함.
@@ -25,6 +36,7 @@ namespace MapEditor
                 case Tile.TileType.NONE: return "Tile_None";
                 case Tile.TileType.FLOOR: return "Tile_Floor";
                 case Tile.TileType.OBSTARCLE: return "Tile_Obstacle";
+                case Tile.TileType.UNIT: return "Tile_Add_Unit";
             }
             return "";
         }

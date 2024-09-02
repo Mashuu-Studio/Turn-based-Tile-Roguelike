@@ -2,14 +2,14 @@
     <Style src="project://database/Assets/Editor/Attack%20Editor/AttackEditor.uss?fileID=7433441132597879392&amp;guid=395d2f7a01385b84095f704c3aa6a901&amp;type=3#AttackEditor" />
     <SplitView fixed-pane-initial-dimension="300">
         <ui:VisualElement name="left-panel" style="flex-grow: 1;">
-            <SplitView orientation="Vertical" fixed-pane-initial-dimension="300">
-                <ui:VisualElement style="flex-grow: 1;">
+            <SplitView fixed-pane-initial-dimension="300" orientation="Vertical">
+                <ui:VisualElement style="flex-grow: 1; height: 300px;">
                     <uie:Toolbar />
                     <InspectorView style="height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1;">
                     <uie:Toolbar />
-                    <AttackEditor.AttackEditorTileEditorView style="height: 100%;" />
+                    <AttackEditor.AttackEditorTileEditorView style="height: 100%; background-color: rgba(0, 0, 0, 0); background-image: none; opacity: 0;" />
                 </ui:VisualElement>
             </SplitView>
         </ui:VisualElement>

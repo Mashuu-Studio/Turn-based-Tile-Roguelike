@@ -3,7 +3,8 @@
     flex-wrap: wrap;
 }
 
-.Tile_Floor, .Tile_Obstacle, .Tile_None, .Horizontal_Symmetry, .Vertical_Symmetry, .Map_Preset1, .Map_Preset2 {
+.Tile_Floor, .Tile_Obstacle,.Tile_None, .Tile_Add_Unit,
+.Horizontal_Symmetry, .Vertical_Symmetry, .Map_Preset1, .Map_Preset2  {
     width: 50px;
     height: 50px;
     margin: 5px;
@@ -20,6 +21,10 @@
 
 .Tile_Obstacle {
     background-image: url("project://database/Assets/Sprites/Editor/OBSTACLE.png?fileID=2800000&guid=dce751b27cc76fe4488ed226764499a2&type=3#OBSTACLE");
+}
+
+.Tile_Add_Unit {
+    background-image: url("project://database/Assets/Sprites/Editor/ADD%20UNIT%20TILE.png?fileID=2800000&guid=ecf9e514755a4e54e96c84ad1dcfb656&type=3#ADD UNIT TILE");
 }
 
 .Horizontal_Symmetry {

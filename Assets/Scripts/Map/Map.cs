@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Scripting;
+using static UnityEditor.PlayerSettings;
 
 [CreateAssetMenu(fileName = "Map Data", menuName = "Create Data/Map")]
 public class Map : Data
@@ -16,9 +18,29 @@ public class Map : Data
     public Tile[,] Tiles { get { return tiles; } }
     private Tile[,] tiles;
 
+    public List<Vector3Int> EnemiePoses { get { return enemies.Keys.ToList(); } }
+    private Dictionary<Vector3Int, Unit> enemies;
+    [SerializeField] private List<Vector3Int> serializeEnemyKeys;
+    [SerializeField] private List<Unit> serializeEnemyValues;
     [SerializeField] private Tile[] serializeTiles;
 
-    private void SerializeTiles()
+    public Unit GetEnemy(Vector3Int pos)
+    {
+        if (enemies.ContainsKey(pos)) return enemies[pos];
+        return null;
+    }
+    public void AddEnemy(Vector3Int pos, Unit unit)
+    {
+        if (enemies == null) enemies = new Dictionary<Vector3Int, Unit>();
+
+        if (enemies.ContainsKey(pos)) enemies[pos] = unit;
+        else enemies.Add(pos, unit);
+
+        Serialize();
+        AssetDatabase.SaveAssets();
+    }
+
+    private void Serialize()
     {
         serializeTiles = new Tile[width * height];
 
@@ -29,9 +51,20 @@ public class Map : Data
                 serializeTiles[i * height + j] = tiles[i, j];
             }
         }
+
+        if (enemies != null)
+        {
+            serializeEnemyKeys = new List<Vector3Int>();
+            serializeEnemyValues = new List<Unit>();
+            foreach (var enemy in enemies)
+            {
+                serializeEnemyKeys.Add(enemy.Key);
+                serializeEnemyValues.Add(enemy.Value);
+            }
+        }
     }
 
-    public void DeserializeTiles()
+    public void Deserialize()
     {
         // Deserialize 할 배열이 없다면 생성.
         if (serializeTiles == null || serializeTiles.Length < width * height) SetMap();
@@ -44,6 +77,15 @@ public class Map : Data
                 tiles[i, j] = serializeTiles[i * height + j];
             }
         }
+
+        if (serializeEnemyKeys != null)
+        {
+            enemies = new Dictionary<Vector3Int, Unit>();
+            for (int i = 0; i < serializeEnemyKeys.Count; i++)
+            {
+                enemies.Add(serializeEnemyKeys[i], serializeEnemyValues[i]);
+            }
+        }
     }
 
     public void LoadMap()
@@ -53,7 +95,7 @@ public class Map : Data
         if (map)
         {
             // 타일정보를 불러온 뒤 만일의 상황을 대비해 SetMap을 통해 지워주거나 채워줌.
-            DeserializeTiles();
+            Deserialize();
             SetMap();
         }
     }
@@ -105,7 +147,7 @@ public class Map : Data
             }
         }
         tiles = newTiles;
-        SerializeTiles();
+        Serialize();
         OnChanged?.Invoke();
         AssetDatabase.SaveAssets();
     }

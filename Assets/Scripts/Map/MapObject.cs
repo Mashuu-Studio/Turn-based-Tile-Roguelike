@@ -26,7 +26,7 @@ public class MapObject : MonoBehaviour
 
     public static MapObject Create(Map map)
     {
-        map.DeserializeTiles();
+        map.Deserialize();
         var go = new GameObject(map.name);
         var mapObject = go.AddComponent<MapObject>();
         var child = new GameObject("Tilemap");
@@ -43,10 +43,11 @@ public class MapObject : MonoBehaviour
     public void SetMap(Map map)
     {
         data = map;
-        Sprite[] sprites = new Sprite[3];
+        Sprite[] sprites = new Sprite[4];
         sprites[0] = Resources.Load<Sprite>("NONE");
         sprites[1] = Resources.Load<Sprite>("FLOOR");
         sprites[2] = Resources.Load<Sprite>("OBSTACLE");
+        sprites[3] = Resources.Load<Sprite>("FLOOR");
 
         var pos = Vector3Int.zero;
         for (int x = 0; x < map.width; x++)
@@ -63,17 +64,14 @@ public class MapObject : MonoBehaviour
             }
         }
 
-        // 우선 임시로 세팅. 후에는 Map에서 정보를 받아올 예정.
         units = new List<UnitObject>();
-        string[] names = new string[] { "TEST1", "TEST2" };
-        foreach (var name in names)
+        foreach (var p in map.EnemiePoses)
         {
             var go = new GameObject(name);
             go.transform.parent = transform;
 
             var unit = go.AddComponent<EnemyObject>();
-            Vector3Int p = new Vector3Int(Random.Range(0, map.width), Random.Range(0, map.height));
-            unit.Summon(UnitManager.GetUnit(name), p);
+            unit.Summon(map.GetEnemy(p), p);
 
             units.Add(unit);
         }

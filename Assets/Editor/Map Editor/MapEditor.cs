@@ -23,6 +23,7 @@ namespace MapEditor
         MapEditorView editorView;
         InspectorView mapInspectorView;
         TilePaletteView tilePaletteView;
+        MapEditorUnitSelectorView unitSelectorView;
 
         [MenuItem("Window/Custom Editor/Map Editor")]
         public static void ShowExample()
@@ -53,14 +54,16 @@ namespace MapEditor
             editorView = root.Q<MapEditorView>();
             mapInspectorView = root.Q<InspectorView>();
             tilePaletteView = root.Q<TilePaletteView>();
+            unitSelectorView = root.Q<MapEditorUnitSelectorView>();
         }
 
         public void PopulateView(Map map)
         {
             if (map)
             {
-                editorView.PopulateView(map, tilePaletteView);
+                editorView.PopulateView(map, tilePaletteView, unitSelectorView);
                 mapInspectorView.PopulateView(map);
+                unitSelectorView.PopulateView(editorView);
             }
         }
 

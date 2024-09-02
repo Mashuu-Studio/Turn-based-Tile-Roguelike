@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da1dd1d0656afd40a50f7caca92a3de, type: 3}
   m_Name: Unit Data
   m_EditorClassIdentifier: 
-  key: 
+  key: UNIT 0
   hp: 0
   dmg: 0
   attacks:
