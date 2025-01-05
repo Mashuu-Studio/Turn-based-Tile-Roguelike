@@ -116,7 +116,7 @@ public class StageController : MonoBehaviour
                 if (stage[x, y] == NONE) continue;
                 bool start = x == value / 2 && y == value / 2;
                 var map = start ? MapManager.GetStartMap() : MapManager.GetMap(DoorInfo(x, y));
-                var mapObject = MapObject.Create(map);
+                var mapObject = MapObject.Create(map, DoorInfo(x, y));
                 mapObject.transform.position = new Vector2(x * (11 + 3), y * (11 + 3));
                 mapObject.transform.parent = transform;
                 maps.Add(new Vector3Int(x, y), mapObject);

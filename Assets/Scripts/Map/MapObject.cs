@@ -32,7 +32,7 @@ public class MapObject : MonoBehaviour
             || data.Tiles[pos.x, pos.y].type == Tile.TileType.UNIT);
     }
 
-    public static MapObject Create(Map map)
+    public static MapObject Create(Map map, int doorInfo)
     {
         map.Deserialize();
         var go = new GameObject(map.name);
@@ -43,12 +43,12 @@ public class MapObject : MonoBehaviour
         child.AddComponent<TilemapRenderer>();
         child.transform.parent = mapObject.transform;
 
-        mapObject.SetMap(map);
+        mapObject.SetMap(map, doorInfo);
 
         return mapObject;
     }
 
-    public void SetMap(Map map)
+    public void SetMap(Map map, int doorInfo)
     {
         data = map;
         Sprite[] sprites = new Sprite[4];
@@ -63,6 +63,7 @@ public class MapObject : MonoBehaviour
             for (int y = 0; y < map.height; y++)
             {
                 UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+
                 tile.sprite = sprites[(int)map.Tiles[x, y].type];
 
                 pos.x = x;
@@ -72,6 +73,64 @@ public class MapObject : MonoBehaviour
             }
         }
 
+        for (int x = -1; x <= map.width; x++)
+        {
+            if (x == map.width / 2) continue;
+            UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+            tile.sprite = sprites[0];
+
+            pos.x = x;
+            pos.y = -1;
+            tilemap.SetTile(pos, tile);
+            tilemap.SetTileFlags(pos, TileFlags.None);
+            pos.y = map.height;
+            tilemap.SetTile(pos, tile);
+            tilemap.SetTileFlags(pos, TileFlags.None);
+        }
+
+        for (int y = 0; y < map.height; y++)
+        {
+            if (y == map.height / 2) continue;
+            UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+            tile.sprite = sprites[0];
+
+            pos.x = -1;
+            pos.y = y;
+            tilemap.SetTile(pos, tile);
+            tilemap.SetTileFlags(pos, TileFlags.None);
+            pos.x = map.width;
+            tilemap.SetTile(pos, tile);
+            tilemap.SetTileFlags(pos, TileFlags.None);
+        }
+
+        // го ╩С ©Л аб
+        {
+            UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+            if ((doorInfo & 1) == 1) tile.sprite = sprites[1];
+            else tile.sprite = sprites[0];
+            tilemap.SetTile(new Vector3Int(map.width / 2, -1), tile);
+            doorInfo >>= 1;
+        }
+        {
+            UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+            if ((doorInfo & 1) == 1) tile.sprite = sprites[1];
+            else tile.sprite = sprites[0];
+            tilemap.SetTile(new Vector3Int(map.width / 2, map.height), tile);
+            doorInfo >>= 1;
+        }
+        {
+            UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+            if((doorInfo & 1) == 1) tile.sprite = sprites[1];
+            else tile.sprite = sprites[0];
+            tilemap.SetTile(new Vector3Int(map.width, map.height / 2), tile);
+            doorInfo >>= 1;
+        }
+        {
+            UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
+            if ((doorInfo & 1) == 1) tile.sprite = sprites[1];
+            else tile.sprite = sprites[0];
+            tilemap.SetTile(new Vector3Int(-1, map.height / 2), tile);
+        }
         units = new List<UnitObject>();
         foreach (var p in map.EnemiePoses)
         {
@@ -162,7 +221,6 @@ public class MapObject : MonoBehaviour
             pos.x = Width / 2;
             pos.y = Height - 1;
         }
-
         return pos;
     }
 }

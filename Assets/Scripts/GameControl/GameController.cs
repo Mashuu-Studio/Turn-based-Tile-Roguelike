@@ -43,11 +43,12 @@ public class GameController : MonoBehaviour
 
     private void Next(Vector3Int dir)
     {
-        if (StageController.Instance.Move(player.Pos, dir) 
+        bool moveMap = StageController.Instance.Move(player.Pos, dir);
+        if (moveMap
             || StageController.Instance.CurrentMap.Available(player.Pos + dir))
         {
             // 맵 밖에 못 나가게 하는 작업도 필요
-            player.Move(dir);
+            if (!moveMap) player.Move(dir);
             UnitController.Instance.ActivateUnits();
         }
     }
