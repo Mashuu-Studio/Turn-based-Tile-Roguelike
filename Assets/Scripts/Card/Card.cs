@@ -5,7 +5,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Card Data", menuName = "Create Data/Card")]
 public class Card : Data
-{
+{    public static Card None { get { return null; } }
+
     // 카드 종류 공격 아이템 버프 뭐 그런 것들
     // 카드 타입 영구, 일시적 등등
 
@@ -22,4 +23,5 @@ public class Card : Data
     {
         OnTypeChanged?.Invoke();
     }
+
 }

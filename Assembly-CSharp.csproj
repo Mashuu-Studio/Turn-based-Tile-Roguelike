@@ -62,8 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Object\Core\Poolable.cs" />
+    <Compile Include="Assets\Scripts\Card\Inventory.cs" />
     <Compile Include="Assets\Scripts\Object\Core\Pool.cs" />
     <Compile Include="Assets\Scripts\Data\Data.cs" />
+    <Compile Include="Assets\Scripts\UI\InventoryUI.cs" />
     <Compile Include="Assets\Scripts\Map\MapObject.cs" />
     <Compile Include="Assets\Scripts\Object\PlayerObject.cs" />
     <Compile Include="Assets\Scripts\Card\Card.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Assets\Scripts\Data\Unit.cs" />
     <Compile Include="Assets\Scripts\Object\PoolController.cs" />
     <Compile Include="Assets\Scripts\Map\MapManager.cs" />
+    <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\GameControl\UnitController.cs" />
     <Compile Include="Assets\Scripts\Data\AttackManager.cs" />
     <Compile Include="Assets\Scripts\Map\StageController.cs" />

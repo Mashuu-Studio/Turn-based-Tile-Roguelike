@@ -25,10 +25,13 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow)) Next(Vector3Int.right);
-        else if (Input.GetKeyDown(KeyCode.LeftArrow)) Next(Vector3Int.left);
-        else if (Input.GetKeyDown(KeyCode.UpArrow)) Next(Vector3Int.up);
-        else if (Input.GetKeyDown(KeyCode.DownArrow)) Next(Vector3Int.down);
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        if (horizontal > 0) Next(Vector3Int.right);
+        else if (horizontal < 0) Next(Vector3Int.left);
+        else if (vertical > 0) Next(Vector3Int.up);
+        else if (vertical < 0) Next(Vector3Int.down);
     }
 
     // 행동을 진행하면 UnitController에서 행동 활성화
