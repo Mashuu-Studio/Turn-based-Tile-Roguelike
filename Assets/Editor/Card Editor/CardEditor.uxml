@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/Card%20Editor/CardEditor.uss?fileID=7433441132597879392&amp;guid=832edc35322ba59408ad7f24f203b5f1&amp;type=3#CardEditor" />
+    <SplitView fixed-pane-initial-dimension="200">
+        <ui:VisualElement style="flex-grow: 1;">
+            <uie:Toolbar />
+            <InspectorView />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <uie:Toolbar />
+            <CardEditor.CardEditorView />
+        </ui:VisualElement>
+    </SplitView>
+</ui:UXML>
