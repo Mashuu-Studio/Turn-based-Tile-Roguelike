@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be3e1521e6a7bad449ae16ddaac458ea, type: 3}
-  m_Name: Card Data 2
+  m_Name: Test2
   m_EditorClassIdentifier: 
-  key: 
+  key: Test2
   type: 0
   usable: -1
+  value: 0
+  cost: 0
+  style: {fileID: 11400000, guid: d94be8efe374aac419f2b6277de4cdd5, type: 2}

@@ -4,7 +4,6 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private RectTransform[] equipSlots;
     [SerializeField] private RectTransform selectedSlot;
-    private int selectedSlotIndex = 0;
 
     public RectTransform rectTransform { get { return (RectTransform)transform; } }
 
@@ -15,16 +14,12 @@ public class InventoryUI : MonoBehaviour
 
     public void SelectSlot(int index)
     {
-        selectedSlotIndex = index;
-        selectedSlot.anchoredPosition = equipSlots[selectedSlotIndex].anchoredPosition;
+        selectedSlot.anchoredPosition = equipSlots[Inventory.SelectedEquipSlotIndex].anchoredPosition;
     }
 
     public void ScrollSlot(int dir)
     {
-        selectedSlotIndex += dir;
-        if (selectedSlotIndex < 0) selectedSlotIndex = 2;
-        else if (selectedSlotIndex > 2) selectedSlotIndex = 0;
-
-        SelectSlot(selectedSlotIndex);
+        Inventory.SelectEquip(Inventory.SelectedEquipSlotIndex + dir);
+        SelectSlot(Inventory.SelectedEquipSlotIndex);
     }
 }

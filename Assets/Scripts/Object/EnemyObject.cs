@@ -19,9 +19,9 @@ public class EnemyObject : UnitObject
         StageController.Instance.CurrentMap.ShowRange(pos, attack.attackRange);
         foreach (var attackPos in attack.attackRange)
         {
-            if (GameController.Instance.PlayerPos == pos + attackPos)
+            if (PlayerController.Instance.PlayerPos == pos + attackPos)
             {
-                GameController.Instance.Damaged(dmg);
+                PlayerController.Instance.Damaged(dmg);
             }
         }
     }

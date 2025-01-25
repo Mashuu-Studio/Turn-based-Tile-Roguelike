@@ -21,22 +21,16 @@ public class GameController : MonoBehaviour
 
 
     public int seed;
-    [SerializeField] private PlayerObject player;
-
-    private void Update()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        if (horizontal > 0) Next(Vector3Int.right);
-        else if (horizontal < 0) Next(Vector3Int.left);
-        else if (vertical > 0) Next(Vector3Int.up);
-        else if (vertical < 0) Next(Vector3Int.down);
-    }
 
     // 행동을 진행하면 UnitController에서 행동 활성화
     // 다음 행동을 할 때까지 대기.
     // 체크용 턴 넘기기
+
+    private void Start()
+    {
+        StartGame(seed);
+        StageController.Instance.CreateStage(1);
+    }
 
     public void StartGame(int seed)
     {
@@ -44,32 +38,11 @@ public class GameController : MonoBehaviour
         Random.InitState(seed);
     }
 
-    private void Next(Vector3Int dir)
+    public void NextTurn()
     {
-        bool moveMap = StageController.Instance.Move(player.Pos, dir);
-        if (moveMap
-            || StageController.Instance.CurrentMap.Available(player.Pos + dir))
-        {
-            // 맵 밖에 못 나가게 하는 작업도 필요
-            if (!moveMap) player.Move(dir);
-            UnitController.Instance.ActivateUnits();
-        }
+        UnitController.Instance.ActivateUnits();
+        Debug.Log("Next");
     }
-
-    // 현재 Player를 관리하고 있어서 사용. 나중에 독립.
-    public void Damaged(int dmg)
-    {
-        player.Damaged(dmg);
-    }
-
-    // 현재 Player를 관리하고 있어서 사용. 나중에 독립.
-    public void SetPlayer(Vector3Int pos)
-    {
-        player.transform.parent = StageController.Instance.CurrentMap.transform;
-        player.SetPos(pos);
-    }
-
-    public Vector3Int PlayerPos { get { return player.Pos; } }
 
     private void OnGUI()
     {

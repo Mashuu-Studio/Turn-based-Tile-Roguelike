@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerObject : UnitObject
 {
+    [SerializeField] private Card[] attacks;
+
+    private void Start()
+    {
+        for (int i = 0; i < 3; i++)
+            Inventory.SetEquip(attacks[i], i);
+    }
+
     // 임시 함수. Summon등과 통합되면 좋을 듯.
     public void SetPos(Vector3Int pos)
     {

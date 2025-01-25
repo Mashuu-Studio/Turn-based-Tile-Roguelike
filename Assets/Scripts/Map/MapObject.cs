@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -120,7 +121,7 @@ public class MapObject : MonoBehaviour
         }
         {
             UnityEngine.Tilemaps.Tile tile = ScriptableObject.CreateInstance(typeof(UnityEngine.Tilemaps.Tile)) as UnityEngine.Tilemaps.Tile;
-            if((doorInfo & 1) == 1) tile.sprite = sprites[1];
+            if ((doorInfo & 1) == 1) tile.sprite = sprites[1];
             else tile.sprite = sprites[0];
             tilemap.SetTile(new Vector3Int(map.width, map.height / 2), tile);
             doorInfo >>= 1;
@@ -158,6 +159,39 @@ public class MapObject : MonoBehaviour
     // 범위 표기 함수. 
     // 마찬가지로 임시. 후에 코드 정리가 들어가면서 조정
     List<Vector3Int> colorList = new List<Vector3Int>();
+
+    public void PlayerRange(Vector3Int originPos, List<Vector3Int> range, Vector2Int viewDirection)
+    {
+        // right의 경우에는 x, y
+        // left의 경우에는 -x, y
+        // up의 경우에는 -y, x
+        // down의 경우에는 y, -x
+
+        foreach (var pos in range)
+        {
+            var newPos = pos;
+            if (viewDirection == Vector2Int.left)
+            {
+                newPos.x *= -1;
+            }
+            else if (viewDirection == Vector2Int.up)
+            {
+                int tmp = newPos.x;
+                newPos.x = -newPos.y;
+                newPos.y = tmp;
+            }
+            else if (viewDirection == Vector2Int.down)
+            {
+                int tmp = newPos.x;
+                newPos.x = newPos.y;
+                newPos.y = -tmp;
+            }
+            var p = newPos + originPos;
+            tilemap.SetColor(p, Color.green);
+            colorList.Add(p);
+        }
+    }
+
     public void ShowRange(Vector3Int originPos, List<Vector3Int> range)
     {
         foreach (var pos in range)

@@ -124,7 +124,7 @@ public class StageController : MonoBehaviour
                 if (start) SetMap(new Vector3Int(x, y), mapObject);
             }
         }
-        GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(Vector3Int.zero));
+        PlayerController.Instance.SetPlayer(CurrentMap.RoomStartPos(Vector3Int.zero));
     }
 
     private int DoorInfo(int x, int y)
@@ -191,7 +191,7 @@ public class StageController : MonoBehaviour
         if (Available(pos.x, pos.y) && maps.ContainsKey(pos))
         {
             SetMap(pos, maps[pos]);
-            GameController.Instance.SetPlayer(CurrentMap.RoomStartPos(dir));
+            PlayerController.Instance.SetPlayer(CurrentMap.RoomStartPos(dir));
             return true;
         }
         return false; // 방이 없을 때는 이동할 수 없음.

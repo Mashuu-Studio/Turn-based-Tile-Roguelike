@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Data\Initializer.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\Astar.cs" />
+    <Compile Include="Assets\Scripts\GameControl\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Map\Map.cs" />
     <Compile Include="Assets\Scripts\Map\Tile.cs" />
     <Compile Include="Assets\Scripts\Data\SpriteManager.cs" />

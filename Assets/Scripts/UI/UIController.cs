@@ -33,7 +33,7 @@ public class UIController : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
-            inventoryUI.ScrollSlot(scroll > 0 ? 1 : -1);
+            inventoryUI.ScrollSlot(scroll > 0 ? -1 : 1);
         }
 
         if (Input.GetButtonDown("Equip1")) inventoryUI.SelectSlot(0);

@@ -46,7 +46,7 @@ public class UnitController : MonoBehaviour
     };
     public void ActivateUnits()
     {
-        StageController.Instance.CurrentMap.ClearRange();
+        //StageController.Instance.CurrentMap.ClearRange();
         // 우선 랜덤으로 작동. 
         foreach (var unit in units)
         {
